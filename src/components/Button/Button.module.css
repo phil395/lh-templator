@@ -28,3 +28,8 @@
 .button:active {
   filter: brightness(0.9)
 }
+
+.button:focus-visible {
+  outline: 2px solid hsl(var(--main-text-color));
+  outline-offset: 1px;
+}
