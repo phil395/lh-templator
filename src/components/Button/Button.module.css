@@ -1,0 +1,30 @@
+.button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-weight: bold;
+  background-color: hsl(var(--blue));
+  border-radius: var(--border-radius);
+}
+
+.button span:only-child {
+  margin: .2em .75em;
+}
+
+.button span:not(:only-child) {
+  margin: .2em .75em .2em .2em;
+}
+
+.button svg:not(:only-child) {
+  margin-right: .25em;
+  margin-left: 0.5em;
+}
+
+.button svg:only-child {
+  margin: .13em;
+}
+
+.button:active {
+  filter: brightness(0.9)
+}
