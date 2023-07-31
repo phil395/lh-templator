@@ -1,0 +1,11 @@
+.output {
+  margin-top: 0.6rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  display: block;
+  background-color: hsl(var(--preview-color));
+  border-radius: var(--border-radius);
+  font-family: inherit;
+
+  white-space: break-spaces;
+}
