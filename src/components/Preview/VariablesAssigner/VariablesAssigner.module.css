@@ -1,0 +1,11 @@
+.item:not(:last-child) {
+  margin-bottom: 1rem;
+}
+
+.item p {
+  margin-bottom: 0.6rem;
+}
+
+.item input {
+  padding: 0.6rem;
+}
