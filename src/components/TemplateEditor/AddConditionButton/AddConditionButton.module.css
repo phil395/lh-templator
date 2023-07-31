@@ -1,0 +1,28 @@
+.addConditionButton {
+  color: inherit;
+  background-color: hsl(var(--preview-color));
+  font-weight: bold;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: .1rem;
+}
+
+.addConditionButton>svg {
+  color: hsl(var(--blue));
+}
+
+.addConditionButton>span>span {
+  margin: 0 10px;
+}
+
+.addConditionButton>span>span:first-child {
+  color: hsl(var(--blue));
+}
+
+.addConditionButton>span>span:nth-child(2) {
+  color: hsl(var(--pink));
+}
+
+.addConditionButton>span>span:last-child {
+  color: hsl(var(--light-blue));
+}
