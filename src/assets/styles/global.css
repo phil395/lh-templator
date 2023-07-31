@@ -1,0 +1,43 @@
+body {
+  background-color: hsl(var(--bg-color));
+  color: hsl(var(--main-text-color));
+
+  /* fix page jerking when scrollbar disappears
+    https://twitter.com/chriscoyier/status/544159988701495296
+  */
+  margin-left: calc(100vw - 100%);
+}
+
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+button:active {
+  filter: brightness(0.9)
+}
+
+button:focus-visible {
+  outline: 2px solid hsl(var(--main-text-color));
+  outline-offset: 1px;
+}
+
+/* used in components: Textarea (TemplateEditor); VariableAssigner (Preview) */
+.text-field {
+  padding: 1rem;
+  width: 100%;
+  min-width: 250px;
+  border-radius: var(--border-radius);
+  background-color: hsl(var(--text-field-color));
+  color: hsl(var(--main-text-color));
+  transition: 0.3s box-shadow;
+  outline: none;
+}
+
+.text-field::placeholder {
+  color: hsl(var(--main-text-color) / .35);
+}
+
+.text-field:focus {
+  box-shadow: 0 0 0 2px hsl(var(--main-text-color) / .5);
+}

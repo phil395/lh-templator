@@ -1,0 +1,30 @@
+:root {
+  /* #5a89f6 */
+  --blue: 222 90% 66%;
+  /*  #77b4e7 */
+  --light-blue: 207 70% 69%;
+  /*  #a9419f */
+  --pink: 306 44% 46%;
+  /* #e1564f */
+  --red: 3 71% 60%;
+  /* #60aa50 */
+  --green: 109 36% 49%;
+  /* #27292f */
+  --dark: 225 9% 17%;
+  /*#3f4048*/
+  --gray: 233 7% 26%;
+  /* #50515b */
+  --light-gray: 235 6% 34%;
+  /* #cbcbcb */
+  --dark-white: 0 0% 80%;
+
+
+  --border-radius: .6rem;
+  --spacing: 2rem;
+  --half-spacing: calc(var(--spacing) / 2);
+  --bg-color: var(--gray);
+  --text-field-color: var(--dark);
+  --main-text-color: var(--dark-white);
+  /* --placeholder-color: var(--light-gray); */
+  --preview-color: var(--light-gray);
+}
