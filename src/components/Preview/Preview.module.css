@@ -1,0 +1,17 @@
+.preview {
+  width: min(650px, 80vw);
+}
+
+.title {
+  margin: 1rem 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.footer {
+  margin-top: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
