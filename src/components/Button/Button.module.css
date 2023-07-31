@@ -4,32 +4,39 @@
   align-items: center;
   color: white;
   font-weight: bold;
-  background-color: hsl(var(--blue));
   border-radius: var(--border-radius);
 }
 
-.button span:only-child {
+.button>span:only-child {
   margin: .2em .75em;
 }
 
-.button span:not(:only-child) {
+.button>span:not(:only-child) {
   margin: .2em .75em .2em .2em;
 }
 
-.button svg:not(:only-child) {
+.button>svg:not(:only-child) {
   margin-right: .25em;
   margin-left: 0.5em;
 }
 
-.button svg:only-child {
+.button>svg:only-child {
   margin: .13em;
 }
 
-.button:active {
-  filter: brightness(0.9)
+.red {
+  background-color: hsl(var(--red));
 }
 
-.button:focus-visible {
-  outline: 2px solid hsl(var(--main-text-color));
-  outline-offset: 1px;
+.blue {
+  background-color: hsl(var(--blue));
+}
+
+.green {
+  background-color: hsl(var(--green));
+}
+
+.dark {
+  background-color: hsl(var(--dark));
+  color: hsl(var(--dark-white));
 }
