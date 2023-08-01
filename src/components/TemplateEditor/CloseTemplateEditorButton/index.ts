@@ -1,1 +1,1 @@
-export { CloseTemplateEditorButton } from './CloseTemplateEditorButton'
+export { CloseTemplateEditorButton } from "./CloseTemplateEditorButton";

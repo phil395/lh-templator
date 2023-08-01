@@ -1,25 +1,22 @@
 import { useEffect } from "react";
 
-type EventHandler = (() => void) | ((event: Event) => void)
+type EventHandler = (() => void) | ((event: Event) => void);
 
 export const useKeyPress = (
   ref: React.RefObject<Element>,
   handler: EventHandler,
-  key: string
+  key: string,
 ): void => {
   useEffect(() => {
     const listener = (event: KeyboardEvent) => {
-      if (
-        !ref.current ||
-        event.key !== key
-      ) {
+      if (!ref.current || event.key !== key) {
         return;
       }
-      handler(event)
+      handler(event);
     };
     document.addEventListener("keydown", listener);
     return () => {
       document.removeEventListener("keydown", listener);
     };
   }, [handler, key, ref]);
-}
+};

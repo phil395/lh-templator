@@ -1,12 +1,15 @@
-import { shallow } from "zustand/shallow"
-import { useModal } from "../../../context"
-import { useTemplateEditorStore } from "../../../store"
-import { Button } from "../../Button"
-import styles from './SaveDialog.module.css'
+import { shallow } from "zustand/shallow";
+import { useModal } from "../../../context";
+import { useTemplateEditorStore } from "../../../store";
+import { Button } from "../../Button";
+import styles from "./SaveDialog.module.css";
 
 export const SaveDialog = () => {
-  const { hide } = useModal()
-  const { save, closeEditor } = useTemplateEditorStore(({ save, closeEditor }) => ({ save, closeEditor }), shallow)
+  const { hide } = useModal();
+  const { save, closeEditor } = useTemplateEditorStore(
+    ({ save, closeEditor }) => ({ save, closeEditor }),
+    shallow,
+  );
 
   return (
     <section className={styles.dialog}>
@@ -16,10 +19,7 @@ export const SaveDialog = () => {
         Do you want to save or discard them?
       </p>
       <div className={styles.buttons}>
-        <Button
-          content="Cancel"
-          onClick={hide}
-        />
+        <Button content="Cancel" onClick={hide} />
         <Button
           icon="close"
           color="red"
@@ -31,11 +31,11 @@ export const SaveDialog = () => {
           color="green"
           content="Save"
           onClick={async () => {
-            await save()
-            closeEditor()
+            await save();
+            closeEditor();
           }}
         />
       </div>
     </section>
-  )
-}
+  );
+};

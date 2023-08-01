@@ -1,15 +1,15 @@
 import { useLayoutEffect, useReducer, useRef, type FC } from "react";
 import { usePrevious } from "../../hooks";
-import styles from './Transition.module.css'
+import styles from "./Transition.module.css";
 
 interface Props {
-  children: React.ReactElement | null | false
-  enter?: string
-  enterFrom?: string
-  enterTo?: string
-  leave?: string
-  leaveFrom?: string
-  leaveTo?: string
+  children: React.ReactElement | null | false;
+  enter?: string;
+  enterFrom?: string;
+  enterTo?: string;
+  leave?: string;
+  leaveFrom?: string;
+  leaveTo?: string;
 }
 
 /**
@@ -38,57 +38,72 @@ export const Transition: FC<Props> = ({
   leaveFrom = styles["opacity-100"],
   leaveTo = styles["opacity-0"],
 }) => {
-  const ref = useRef<HTMLDivElement>(null)
-  const previousChildren = usePrevious(children)
-  const [, forcedUpdate] = useReducer(x => x + 1, 0)
+  const ref = useRef<HTMLDivElement>(null);
+  const previousChildren = usePrevious(children);
+  const [, forcedUpdate] = useReducer((x) => x + 1, 0);
 
-  const show = async (element: Nullable<HTMLDivElement>, signal: AbortSignal) => {
-    if (!element) return
-    element.classList.remove(leaveTo, leave)
-    element.classList.add(enterFrom, enter)
+  const show = async (
+    element: Nullable<HTMLDivElement>,
+    signal: AbortSignal,
+  ) => {
+    if (!element) return;
+    element.classList.remove(leaveTo, leave);
+    element.classList.add(enterFrom, enter);
     requestAnimationFrame(() => {
-      element.classList.add(enterTo)
-      element.classList.remove(enterFrom)
-    })
-    element.addEventListener('transitionend', () => {
-      element.classList.remove(enter)
-    }, { once: true, signal })
-  }
+      element.classList.add(enterTo);
+      element.classList.remove(enterFrom);
+    });
+    element.addEventListener(
+      "transitionend",
+      () => {
+        element.classList.remove(enter);
+      },
+      { once: true, signal },
+    );
+  };
 
-  const hide = async (element: Nullable<HTMLDivElement>, signal: AbortSignal) => {
-    if (!element) return
-    element.classList.remove(enterTo, enter)
-    element.classList.add(leaveFrom, leave)
+  const hide = async (
+    element: Nullable<HTMLDivElement>,
+    signal: AbortSignal,
+  ) => {
+    if (!element) return;
+    element.classList.remove(enterTo, enter);
+    element.classList.add(leaveFrom, leave);
     requestAnimationFrame(() => {
-      element.classList.add(leaveTo)
-      element.classList.remove(leaveFrom)
-    })
-    element.addEventListener('transitionend', () => {
-      forcedUpdate()
-    }, { once: true, signal })
-  }
+      element.classList.add(leaveTo);
+      element.classList.remove(leaveFrom);
+    });
+    element.addEventListener(
+      "transitionend",
+      () => {
+        forcedUpdate();
+      },
+      { once: true, signal },
+    );
+  };
 
   useLayoutEffect(() => {
     const abortController = new AbortController();
     // This is the moment when the "null" ("false") children is replaced by the jsx component
     if (!previousChildren && children) {
-      show(ref.current, abortController.signal)
+      show(ref.current, abortController.signal);
     }
     // This is the moment when "null" ("false") children came as children
     if (!children && previousChildren) {
-      hide(ref.current, abortController.signal)
+      hide(ref.current, abortController.signal);
     }
-    return () => { abortController.abort() }
-  }, [children]) // eslint-disable-line
-
+    return () => {
+      abortController.abort();
+    };
+  }, [children]); // eslint-disable-line
 
   if (children) {
-    return <div ref={ref}>{children}</div>
+    return <div ref={ref}>{children}</div>;
   }
 
   if (previousChildren) {
-    return <div ref={ref}>{previousChildren}</div>
+    return <div ref={ref}>{previousChildren}</div>;
   }
 
-  return null
-}
+  return null;
+};

@@ -1,4 +1,4 @@
-export { TemplateEditor } from './TemplateEditor'
-export { OpenTemplateEditorButton } from './OpenTemplateEditorButton'
+export { TemplateEditor } from "./TemplateEditor";
+export { OpenTemplateEditorButton } from "./OpenTemplateEditorButton";
 
-export type { TemplateEditorProps } from './TemplateEditor.types'
+export type { TemplateEditorProps } from "./TemplateEditor.types";

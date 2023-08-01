@@ -1,1 +1,1 @@
-export { VariablesAssigner } from './VariablesAssigner'
+export { VariablesAssigner } from "./VariablesAssigner";

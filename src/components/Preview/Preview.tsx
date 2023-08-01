@@ -4,15 +4,14 @@ import { VariablesAssigner } from "./VariablesAssigner";
 import { ClosePreviewButton } from "./ClosePreviewButton";
 import { usePreviewStore } from "../../store/usePreviewStore";
 import type { PreviewProps } from "./Preview.types";
-import styles from './Preview.module.css'
-
+import styles from "./Preview.module.css";
 
 export const Preview: FC<PreviewProps> = ({ template, arrVarNames }) => {
-  const init = usePreviewStore(({ init }) => init)
+  const init = usePreviewStore(({ init }) => init);
 
   useLayoutEffect(() => {
-    init({ template, arrVarNames })
-  }, [template, arrVarNames, init])
+    init({ template, arrVarNames });
+  }, [template, arrVarNames, init]);
 
   return (
     <section className={styles.preview}>
@@ -26,5 +25,4 @@ export const Preview: FC<PreviewProps> = ({ template, arrVarNames }) => {
       </div>
     </section>
   );
-
-}
+};

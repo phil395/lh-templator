@@ -18,8 +18,7 @@
   /* #cbcbcb */
   --dark-white: 0 0% 80%;
 
-
-  --border-radius: .6rem;
+  --border-radius: 0.6rem;
   --spacing: 2rem;
   --half-spacing: calc(var(--spacing) / 2);
   --bg-color: var(--gray);

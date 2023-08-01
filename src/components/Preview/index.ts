@@ -1,3 +1,3 @@
-export { OpenPreviewButton } from './OpenPreviewButton'
+export { OpenPreviewButton } from "./OpenPreviewButton";
 
-export type { PreviewProps } from './Preview.types'
+export type { PreviewProps } from "./Preview.types";

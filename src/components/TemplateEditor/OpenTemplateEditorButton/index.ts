@@ -1,1 +1,1 @@
-export { OpenTemplateEditorButton } from './OpenTemplateEditorButton'
+export { OpenTemplateEditorButton } from "./OpenTemplateEditorButton";

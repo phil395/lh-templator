@@ -1,1 +1,1 @@
-export * as mockTemplates from './mockTemplates'
+export * as mockTemplates from "./mockTemplates";

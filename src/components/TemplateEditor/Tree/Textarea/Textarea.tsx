@@ -1,23 +1,25 @@
-import { useEffect, memo, useState, type FC } from "react"
-import { useAutosize } from "../../../../hooks"
-import { useTemplateEditorStore } from "../../../../store"
-import type { TextNode } from "../../../../models"
+import { useEffect, memo, useState, type FC } from "react";
+import { useAutosize } from "../../../../hooks";
+import { useTemplateEditorStore } from "../../../../store";
+import type { TextNode } from "../../../../models";
 
-interface Props extends TextNode { }
+interface Props extends TextNode {}
 
 export const Textarea: FC<Props> = memo(({ id, value }) => {
-  const [inputValue, setInputValue] = useState(value)
-  const updateTextNode = useTemplateEditorStore(({ updateTextNode }) => updateTextNode)
-  const ref = useAutosize([value])
+  const [inputValue, setInputValue] = useState(value);
+  const updateTextNode = useTemplateEditorStore(
+    ({ updateTextNode }) => updateTextNode,
+  );
+  const ref = useAutosize([value]);
 
   const onBlur = (e: React.FocusEvent<HTMLTextAreaElement, Element>) => {
-    const { value, selectionStart, selectionEnd } = e.target
-    updateTextNode({ id, value, selectionStart, selectionEnd })
-  }
+    const { value, selectionStart, selectionEnd } = e.target;
+    updateTextNode({ id, value, selectionStart, selectionEnd });
+  };
 
   useEffect(() => {
-    setInputValue(value)
-  }, [value])
+    setInputValue(value);
+  }, [value]);
 
   return (
     <textarea
@@ -29,7 +31,6 @@ export const Textarea: FC<Props> = memo(({ id, value }) => {
       onChange={(e) => setInputValue(e.target.value)}
       onBlur={onBlur}
       spellCheck={true}
-    >
-    </textarea>
-  )
-})
+    ></textarea>
+  );
+});

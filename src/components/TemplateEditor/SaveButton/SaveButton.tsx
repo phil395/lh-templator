@@ -3,14 +3,7 @@ import { useTemplateEditorStore } from "../../../store";
 import { Button } from "../../Button";
 
 export const SaveButton: FC = () => {
-  const save = useTemplateEditorStore(({ save }) => save)
+  const save = useTemplateEditorStore(({ save }) => save);
 
-  return (
-    <Button
-      onClick={save}
-      content="Save"
-      icon="done"
-      color="green"
-    />
-  )
-}
+  return <Button onClick={save} content="Save" icon="done" color="green" />;
+};

@@ -1,1 +1,1 @@
-export type IconType = "done" | "close" | "condition"
+export type IconType = "done" | "close" | "condition";

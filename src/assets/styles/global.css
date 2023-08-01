@@ -8,13 +8,12 @@ body {
   margin-left: calc(100vw - 100%);
 }
 
-
 .overflow-hidden {
   overflow: hidden;
 }
 
 button:active {
-  filter: brightness(0.9)
+  filter: brightness(0.9);
 }
 
 button:focus-visible {
@@ -35,9 +34,9 @@ button:focus-visible {
 }
 
 .text-field::placeholder {
-  color: hsl(var(--main-text-color) / .35);
+  color: hsl(var(--main-text-color) / 0.35);
 }
 
 .text-field:focus {
-  box-shadow: 0 0 0 2px hsl(var(--main-text-color) / .5);
+  box-shadow: 0 0 0 2px hsl(var(--main-text-color) / 0.5);
 }

@@ -1,28 +1,28 @@
-import { uuid } from "../utils"
+import { uuid } from "../utils";
 
 export type TextNode = {
-  id: string,
-  type: "text",
-  value: string
-}
+  id: string;
+  type: "text";
+  value: string;
+};
 
 export type ConditionNode = {
-  id: string,
-  type: "condition",
+  id: string;
+  type: "condition";
   nodes: {
-    if: TemplateNode[]
-    then: TemplateNode[]
-    else: TemplateNode[]
-  }
-}
+    if: TemplateNode[];
+    then: TemplateNode[];
+    else: TemplateNode[];
+  };
+};
 
-export type TemplateNode = TextNode | ConditionNode
+export type TemplateNode = TextNode | ConditionNode;
 
 export const getNewTextNode = (value: string = ""): TextNode => ({
   id: uuid(),
   type: "text",
-  value
-})
+  value,
+});
 
 export const getDefaultConditionNode = (): ConditionNode => ({
   id: uuid(),
@@ -30,9 +30,6 @@ export const getDefaultConditionNode = (): ConditionNode => ({
   nodes: {
     if: [getNewTextNode()],
     then: [getNewTextNode()],
-    else: [getNewTextNode()]
-  }
-})
-
-
-
+    else: [getNewTextNode()],
+  },
+});

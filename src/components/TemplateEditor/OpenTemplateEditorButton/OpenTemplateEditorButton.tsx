@@ -1,9 +1,9 @@
-import { useTemplateEditorStore } from "../../../store"
-import { Button } from "../../Button"
-import styles from "./OpenTemplateEditorButton.module.css"
+import { useTemplateEditorStore } from "../../../store";
+import { Button } from "../../Button";
+import styles from "./OpenTemplateEditorButton.module.css";
 
 export const OpenTemplateEditorButton = () => {
-  const openEditor = useTemplateEditorStore(({ openEditor }) => openEditor)
+  const openEditor = useTemplateEditorStore(({ openEditor }) => openEditor);
 
   return (
     <Button
@@ -12,5 +12,5 @@ export const OpenTemplateEditorButton = () => {
       className={styles.button}
       onClick={openEditor}
     />
-  )
-}
+  );
+};

@@ -1,12 +1,16 @@
-import type { FC } from "react"
-import { Transition, TemplateEditor, OpenTemplateEditorButton } from "./components"
+import type { FC } from "react";
+import {
+  Transition,
+  TemplateEditor,
+  OpenTemplateEditorButton,
+} from "./components";
 import { ModalProvider } from "./context";
 import { DEFAULT_VAR_NAMES, TemplateNode } from "./models";
 import { useTemplateEditorStore } from "./store";
-import styles from './App.module.css'
+import styles from "./App.module.css";
 
 export const App: FC = () => {
-  const open = useTemplateEditorStore(({ open }) => open)
+  const open = useTemplateEditorStore(({ open }) => open);
 
   const arrVarNames = localStorage.arrVarNames
     ? JSON.parse(localStorage.arrVarNames)
@@ -14,11 +18,11 @@ export const App: FC = () => {
 
   const template = localStorage.template
     ? JSON.parse(localStorage.template)
-    : null
+    : null;
 
   const callbackSave = async (template: TemplateNode[]) => {
-    localStorage.setItem("template", JSON.stringify(template))
-  }
+    localStorage.setItem("template", JSON.stringify(template));
+  };
 
   return (
     <>
@@ -33,11 +37,9 @@ export const App: FC = () => {
           </ModalProvider>
         )}
       </Transition>
-      <Transition enter={styles['delayed-transition-opacity']}>
-        {!open && (
-          <OpenTemplateEditorButton />
-        )}
+      <Transition enter={styles["delayed-transition-opacity"]}>
+        {!open && <OpenTemplateEditorButton />}
       </Transition>
     </>
   );
-}
+};

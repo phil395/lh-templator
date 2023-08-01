@@ -7,21 +7,21 @@
   border-radius: var(--border-radius);
 }
 
-.button>span:only-child {
-  margin: .2em .75em;
+.button > span:only-child {
+  margin: 0.2em 0.75em;
 }
 
-.button>span:not(:only-child) {
-  margin: .2em .75em .2em .2em;
+.button > span:not(:only-child) {
+  margin: 0.2em 0.75em 0.2em 0.2em;
 }
 
-.button>svg:not(:only-child) {
-  margin-right: .25em;
+.button > svg:not(:only-child) {
+  margin-right: 0.25em;
   margin-left: 0.5em;
 }
 
-.button>svg:only-child {
-  margin: .13em;
+.button > svg:only-child {
+  margin: 0.13em;
 }
 
 .red {

@@ -1,6 +1,6 @@
-import { TemplateNode } from "../../models"
+import { TemplateNode } from "../../models";
 
 export interface PreviewProps {
-  template: TemplateNode[]
-  arrVarNames: string[]
+  template: TemplateNode[];
+  arrVarNames: string[];
 }

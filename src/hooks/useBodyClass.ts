@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
 export const useBodyClass = (className: string) => {
   useEffect(() => {
@@ -7,4 +7,4 @@ export const useBodyClass = (className: string) => {
       document.body.classList.remove(className);
     };
   }, [className]);
-}
+};
