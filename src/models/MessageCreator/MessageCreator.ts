@@ -4,7 +4,7 @@ export class MessageCreator {
   constructor(
     private template: TemplateNode[],
     private variables: Record<string, string>,
-  ) {}
+  ) { }
 
   create(): string {
     const dfs = (parent: TemplateNode[]): string => {
@@ -14,7 +14,7 @@ export class MessageCreator {
           textParts.push(this.substituteVariables(node.value));
           continue;
         }
-        if (dfs(node.nodes.if).trim()) {
+        if (dfs(node.nodes.if)) {
           textParts.push(dfs(node.nodes.then));
         } else {
           textParts.push(dfs(node.nodes.else));
