@@ -1,4 +1,3 @@
-import { shallow } from "zustand/shallow";
 import { useModal } from "../../../context";
 import { useTemplateEditorStore } from "../../../store";
 import { Button } from "../../Button";
@@ -8,7 +7,6 @@ export const SaveDialog = () => {
   const { hide } = useModal();
   const { save, closeEditor } = useTemplateEditorStore(
     ({ save, closeEditor }) => ({ save, closeEditor }),
-    shallow,
   );
 
   return (

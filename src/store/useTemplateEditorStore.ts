@@ -1,4 +1,5 @@
-import { create } from "zustand";
+import { createWithEqualityFn } from "zustand/traditional";
+import { shallow } from "zustand/shallow";
 import {
   DEFAULT_TEMPLATE,
   DEFAULT_VAR_NAMES,
@@ -83,7 +84,7 @@ const splitLastTextarea = (
   };
 };
 
-export const useTemplateEditorStore = create<TemplateEditorStore>()(
+export const useTemplateEditorStore = createWithEqualityFn<TemplateEditorStore>()(
   (set, get) => ({
     ...initialState,
     openEditor: () => {
@@ -150,4 +151,5 @@ export const useTemplateEditorStore = create<TemplateEditorStore>()(
       };
     },
   }),
+  shallow
 );

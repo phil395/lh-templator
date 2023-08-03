@@ -1,5 +1,4 @@
 import type { FC } from "react";
-import { shallow } from "zustand/shallow";
 import { useTemplateEditorStore } from "../../../store";
 import styles from "./Variables.module.css";
 
@@ -9,7 +8,6 @@ export const Variables: FC = () => {
       insertVarName,
       arrVarNames: props?.arrVarNames,
     }),
-    shallow,
   );
 
   if (!arrVarNames) return null;

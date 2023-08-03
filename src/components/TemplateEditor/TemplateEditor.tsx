@@ -1,5 +1,4 @@
 import { useLayoutEffect, type FC } from "react";
-import { shallow } from "zustand/shallow";
 import { Variables } from "./Variables";
 import { AddConditionButton } from "./AddConditionButton";
 import { CloseTemplateEditorButton } from "./CloseTemplateEditorButton";
@@ -17,7 +16,6 @@ export const TemplateEditor: FC<TemplateEditorProps> = ({
 }) => {
   const { init, getPreviewProps } = useTemplateEditorStore(
     ({ init, getPreviewProps }) => ({ init, getPreviewProps }),
-    shallow,
   );
 
   useLayoutEffect(() => {

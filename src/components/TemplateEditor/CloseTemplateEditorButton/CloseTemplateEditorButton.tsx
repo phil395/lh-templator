@@ -2,7 +2,6 @@ import { FC } from "react";
 import { Button } from "../../Button";
 import { useTemplateEditorStore } from "../../../store";
 import { useModal } from "../../../context";
-import { shallow } from "zustand/shallow";
 import { SaveDialog } from "../SaveDialog";
 
 export const CloseTemplateEditorButton: FC = () => {
@@ -11,7 +10,6 @@ export const CloseTemplateEditorButton: FC = () => {
       closeEditor,
       hasChanges,
     }),
-    shallow,
   );
   const { show } = useModal();
 
