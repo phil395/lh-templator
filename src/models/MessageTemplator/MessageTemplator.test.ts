@@ -5,6 +5,8 @@ import type { ConditionNode, TemplateNode, TextNode } from "../template.types";
 describe("MessageTemplator", () => {
   let templator: MessageTemplator;
   let nodes: TemplateNode[];
+  let usedVarNames: string[] = []
+  let arrVarNames = ["firstName", "lastName"]
 
   beforeEach(() => {
     nodes = [
@@ -12,7 +14,7 @@ describe("MessageTemplator", () => {
       getDefaultConditionNode(),
       getNewTextNode("World"),
     ];
-    templator = new MessageTemplator({ nodes, usedVarNames: [] }, ["firstname"]);
+    templator = new MessageTemplator({ nodes, usedVarNames }, arrVarNames);
   });
 
   describe("addCondition", () => {
@@ -138,31 +140,27 @@ describe("MessageTemplator", () => {
     });
   });
 
-  describe("sanitizeText", () => {
-    it("should handle non-existent variables as plain text, removing curly braces from them", () => {
+  describe("getUsedVarNames", () => {
+    it("should handle non-existent variables as plain text", () => {
       const textNode = nodes[0];
 
       templator.updateTextNode(textNode.id, "Hello, {non-existent}");
 
       expect((templator.getNodes()[0] as TextNode).value).toBe(
-        "Hello, non-existent",
+        "Hello, {non-existent}",
       );
-
-      templator.updateTextNode(textNode.id, "Hello, {  non-existent }");
-
-      expect((templator.getNodes()[0] as TextNode).value).toBe(
-        "Hello,   non-existent ",
-      );
+      expect(templator.getTemplate().usedVarNames).toEqual(usedVarNames);
     });
 
-    it("should remove leading and trailing spaces from existing variable names", () => {
+    it("should add existent variables to usedVarNames list", () => {
       const textNode = nodes[0];
 
-      templator.updateTextNode(textNode.id, "Hello, { firstname  }");
+      templator.updateTextNode(textNode.id, "Hello, {firstName} {lastName}");
 
       expect((templator.getNodes()[0] as TextNode).value).toBe(
-        "Hello, {firstname}",
+        "Hello, {firstName} {lastName}",
       );
+      expect(templator.getTemplate().usedVarNames).toEqual(['firstName', 'lastName']);
     });
   });
 
@@ -182,11 +180,12 @@ describe("MessageTemplator", () => {
 
       templator.updateTextNode(
         templator.getNodes()[0].id,
-        "Hello, {firstname}. {non-existent}",
+        "Hello, {firstName}. {non-existent}",
       );
       expect((templator.getNodes()[0] as TextNode).value).toBe(
-        "Hello, {firstname}. non-existent",
+        "Hello, {firstName}. {non-existent}",
       );
+      expect(templator.getTemplate().usedVarNames).toEqual(['firstName']);
     });
   });
 
@@ -194,7 +193,7 @@ describe("MessageTemplator", () => {
     it("should serialize the template", () => {
       templator = new MessageTemplator(
         { nodes: [{ id: "1", type: "text", value: "Hello" }], usedVarNames: [] },
-        ["firstname"],
+        ["firstName"],
       );
 
       const serialized = JSON.stringify(templator.getTemplate());

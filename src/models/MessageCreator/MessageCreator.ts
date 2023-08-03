@@ -47,7 +47,7 @@ export class MessageCreator {
    * substituteVariables("Hello {firstname}. Welcome to {town}")  // output: "Hello . Welcome to {town}"
    */
   private substituteVariables(text: string) {
-    const regex = /\{(.*?)\}/g;
+    const regex = /\{(\w+)\}/g;
     return text.replace(regex, (match: string, varName: string) => {
       if (this.usedVarNames.has(varName)) {
         return this.variables[varName] ?? "";

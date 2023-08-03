@@ -5,12 +5,10 @@ import { produce } from "immer";
 
 export class MessageTemplator implements MessageTemplatorActions {
   private varNames: Set<string>;
-  private usedVarNames: Set<string>;
   private nodes: TemplateNode[];
 
   constructor(template: Template, varNames: string[],) {
     this.varNames = new Set(varNames);
-    this.usedVarNames = new Set(template.usedVarNames);
     this.nodes = template.nodes
   }
 
@@ -42,24 +40,32 @@ export class MessageTemplator implements MessageTemplatorActions {
   }
 
   /**
-   * Represent non-existent variables as plain text, removing curly braces from them,
-   * and trims leading or trailing whitespace from existing variables
-   * @example
-   * // variableNames: ["firstname"]
-   * sanitizeText("Hello, {firstname}")    // output: "Hello, {firstname}"
-   * sanitizeText("Hello, {  foo}")        // output: "Hello,   foo"
-   * sanitizeText("Hello, { firstname  }") // output: "Hello, {firstname}"
+   *  It goes through all nodes and parse the contents of the curly braces, if it is in the list of variables,
+   *  then mark that variable as used (add it to "usedVarNames")
    */
-  private sanitizeText(text: string): string {
-    const regex = /\{(.*?)\}/g;
-    return text.replace(regex, (_, variableName: string) => {
-      const trimmed = variableName.trim();
-      if (this.varNames.has(trimmed)) {
-        this.usedVarNames.add(trimmed);
-        return `{${trimmed}}`;
+  private getUsedVarNames(): string[] {
+    const regex = /\{(\w+)\}/g;
+    const usedVarNames = new Set<string>();
+    const dfs = (root: TemplateNode[]) => {
+      for (const node of root) {
+        if (node.type === "text") {
+          const matches = node.value.match(regex)
+          if (!matches) continue
+          for (const m of matches) {
+            const varName = m.slice(1, m.length - 1)
+            if (this.varNames.has(varName)) {
+              usedVarNames.add(varName)
+            }
+          }
+        } else {
+          for (const field of ["if", "then", "else"] as const) {
+            dfs(node.nodes[field]);
+          }
+        }
       }
-      return variableName;
-    });
+    }
+    dfs(this.nodes)
+    return Array.from(usedVarNames)
   }
 
   public addCondition(
@@ -74,9 +80,9 @@ export class MessageTemplator implements MessageTemplatorActions {
       parent.splice(
         parent.indexOf(node),
         1,
-        getNewTextNode(this.sanitizeText(textBefore)),
+        getNewTextNode(textBefore),
         getDefaultConditionNode(),
-        getNewTextNode(this.sanitizeText(textAfter)),
+        getNewTextNode(textAfter),
       );
     });
   }
@@ -90,7 +96,7 @@ export class MessageTemplator implements MessageTemplatorActions {
       if (!result) return;
       const [node] = result;
       if (node.type === "text") {
-        node.value = this.sanitizeText(newText);
+        node.value = newText;
       }
     });
   }
@@ -122,7 +128,7 @@ export class MessageTemplator implements MessageTemplatorActions {
   public getTemplate(): Template {
     return {
       nodes: this.nodes,
-      usedVarNames: [...this.usedVarNames],
+      usedVarNames: this.getUsedVarNames(),
     }
   }
 }
