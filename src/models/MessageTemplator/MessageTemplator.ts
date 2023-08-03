@@ -1,6 +1,6 @@
 import type { MessageTemplatorActions } from "./MessageTemplator.types";
 import { getDefaultConditionNode, getNewTextNode } from "../template";
-import type { TemplateNode } from "../template";
+import type { TemplateNode } from "../template.types";
 import { produce } from "immer";
 
 export class MessageTemplator implements MessageTemplatorActions {

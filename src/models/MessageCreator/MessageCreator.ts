@@ -1,4 +1,4 @@
-import { TemplateNode } from "../template";
+import { TemplateNode } from "../template.types";
 
 export class MessageCreator {
   constructor(

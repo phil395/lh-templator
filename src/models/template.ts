@@ -1,22 +1,6 @@
 import { uuid } from "../utils";
+import { ConditionNode, TextNode } from "./template.types";
 
-export type TextNode = {
-  id: string;
-  type: "text";
-  value: string;
-};
-
-export type ConditionNode = {
-  id: string;
-  type: "condition";
-  nodes: {
-    if: TemplateNode[];
-    then: TemplateNode[];
-    else: TemplateNode[];
-  };
-};
-
-export type TemplateNode = TextNode | ConditionNode;
 
 export const getNewTextNode = (value: string = ""): TextNode => ({
   id: uuid(),

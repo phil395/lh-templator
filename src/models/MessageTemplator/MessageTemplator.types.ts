@@ -1,4 +1,4 @@
-import { TemplateNode } from "../template";
+import type { TemplateNode } from "../template.types";
 
 export interface MessageTemplatorActions {
   addCondition(textNodeId: string, textBefore: string, textAfter: string): void;

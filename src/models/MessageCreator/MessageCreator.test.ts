@@ -1,5 +1,5 @@
 import { MessageCreator } from "./MessageCreator";
-import { TemplateNode } from "../template";
+import { TemplateNode } from "../template.types";
 
 describe("MessageCreator", () => {
   const template: TemplateNode[] = [

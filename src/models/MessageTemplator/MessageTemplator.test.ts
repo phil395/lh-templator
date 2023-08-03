@@ -1,10 +1,6 @@
 import { MessageTemplator } from "./MessageTemplator";
-import {
-  getNewTextNode,
-  type ConditionNode,
-  type TextNode,
-  getDefaultConditionNode,
-} from "../template";
+import { getNewTextNode, getDefaultConditionNode } from '../template'
+import type { ConditionNode, TextNode } from "../template.types";
 
 describe("MessageTemplator", () => {
   let templator: MessageTemplator;

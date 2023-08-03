@@ -3,3 +3,4 @@ export * from "./constants";
 export { MessageCreator } from "./MessageCreator";
 export { MessageTemplator } from "./MessageTemplator";
 export type { MessageTemplatorActions } from "./MessageTemplator";
+export * from './template.types'
