@@ -43,7 +43,7 @@ export const VariablesAssigner: FC<VariablesAssignerProps> = ({
     ({ updateVariableValue }) => updateVariableValue,
   );
 
-  if (!arrVarNames) return null;
+  if (!arrVarNames.length) return <div>Variables are not used</div>;
 
   return (
     <ul>
