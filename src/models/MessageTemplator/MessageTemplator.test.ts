@@ -1,10 +1,10 @@
 import { MessageTemplator } from "./MessageTemplator";
 import { getNewTextNode, getDefaultConditionNode } from '../template'
-import type { ConditionNode, TextNode } from "../template.types";
+import type { ConditionNode, TemplateNode, TextNode } from "../template.types";
 
 describe("MessageTemplator", () => {
   let templator: MessageTemplator;
-  let nodes: [TextNode, ConditionNode, TextNode];
+  let nodes: TemplateNode[];
 
   beforeEach(() => {
     nodes = [
@@ -12,7 +12,7 @@ describe("MessageTemplator", () => {
       getDefaultConditionNode(),
       getNewTextNode("World"),
     ];
-    templator = new MessageTemplator(nodes, ["firstname"]);
+    templator = new MessageTemplator({ nodes, usedVarNames: [] }, ["firstname"]);
   });
 
   describe("addCondition", () => {
@@ -191,14 +191,14 @@ describe("MessageTemplator", () => {
   });
 
   describe("serialize", () => {
-    it("should serialize the templated nodes", () => {
+    it("should serialize the template", () => {
       templator = new MessageTemplator(
-        [{ id: "1", type: "text", value: "Hello" }],
+        { nodes: [{ id: "1", type: "text", value: "Hello" }], usedVarNames: [] },
         ["firstname"],
       );
 
-      const serialized = JSON.stringify(templator.getNodes());
-      expect(serialized).toBe(`[{"id":"1","type":"text","value":"Hello"}]`);
+      const serialized = JSON.stringify(templator.getTemplate());
+      expect(serialized).toBe(`{"nodes":[{"id":"1","type":"text","value":"Hello"}],"usedVarNames":[]}`);
     });
   });
 });

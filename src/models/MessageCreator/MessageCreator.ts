@@ -1,10 +1,14 @@
-import { TemplateNode } from "../template.types";
+import { Template, TemplateNode } from "../template.types";
 
 export class MessageCreator {
+  private usedVarNames: Set<string>;
+
   constructor(
-    private template: TemplateNode[],
+    private template: Template,
     private variables: Record<string, string>,
-  ) { }
+  ) {
+    this.usedVarNames = new Set(template.usedVarNames);
+  }
 
   create(): string {
     const dfs = (parent: TemplateNode[]): string => {
@@ -22,22 +26,33 @@ export class MessageCreator {
       }
       return textParts.join("");
     };
-    return dfs(this.template);
+    return dfs(this.template.nodes);
   }
 
   /**
    * Sets variables to a template string.
-   * If the variable is not in the list, an empty string will be substituted instead
+   * - if the variable is NOT in the "usedVarNames" list, then it is treated as plain text;
+   * - if the variable in the list is "usedVarNames":
+   *   - and it is NOT in the dictionary "variables", then an empty value will be substituted;
+   *   - and it is in the dictionary "variables", then its value will be substituted
    * @example
-   * // variables: { firstname: "Bob" }
-   * substituteVariables("Hello, {firstname}")     // output: "Hello, Bob"
-   * substituteVariables("Hello, {name}")          // output: "Hello, "
-   * substituteVariables("Hello, { firstname  }")  // output: "Hello, Bob"
+   * // case 1
+   * // usedVarNames: ["firstname"]
+   * // variables: {firstname: "Bob", town: "New York"}
+   * substituteVariables("Hello {firstname}. Welcome to {town}")  // output: "Hello Bob. Welcome to {town}"
+   *
+   * // case 2
+   * // usedVarNames: ["firstname"]
+   * // variables: {town: "New York", age: 20}
+   * substituteVariables("Hello {firstname}. Welcome to {town}")  // output: "Hello . Welcome to {town}"
    */
   private substituteVariables(text: string) {
     const regex = /\{(.*?)\}/g;
-    return text.replace(regex, (_, variableName: string) => {
-      return this.variables[variableName.trim()] ?? "";
+    return text.replace(regex, (match: string, varName: string) => {
+      if (this.usedVarNames.has(varName)) {
+        return this.variables[varName] ?? "";
+      }
+      return match
     });
   }
 

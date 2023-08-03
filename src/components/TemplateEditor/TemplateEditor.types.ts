@@ -1,7 +1,7 @@
-import { TemplateNode } from "../../models";
+import { Template } from "../../models";
 
 export interface TemplateEditorProps {
   arrVarNames: string[];
-  template: TemplateNode[] | null;
-  callbackSave: (template: TemplateNode[]) => Promise<void>;
+  template: Template | null;
+  callbackSave: (template: Template) => Promise<void>;
 }

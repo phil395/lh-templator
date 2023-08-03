@@ -91,7 +91,7 @@ export const useTemplateEditorStore = create<TemplateEditorStore>()(
     },
     closeEditor: () => {
       /* Prevent the use of actions after pressing close button
-    (for example, when playing the closing animation) */
+      (for example, when playing the closing animation) */
       templator = null;
       set({ open: false });
     },
@@ -101,7 +101,7 @@ export const useTemplateEditorStore = create<TemplateEditorStore>()(
       templator = new MessageTemplator(template, arrVarNames);
       set({
         props,
-        nodes: template,
+        nodes: template.nodes,
         lastTextarea: getInitialLastTextarea(templator),
         hasChanges: false,
       });
@@ -109,7 +109,7 @@ export const useTemplateEditorStore = create<TemplateEditorStore>()(
     save: async () => {
       const { props } = get();
       if (!templator || !props) return;
-      const template = templator.getNodes();
+      const template = templator.getTemplate();
       await props.callbackSave(template);
       set({ hasChanges: false });
     },
@@ -142,11 +142,11 @@ export const useTemplateEditorStore = create<TemplateEditorStore>()(
       set({ nodes: templator.getNodes(), hasChanges: true });
     },
     getPreviewProps: () => {
-      const { props } = get();
-      if (!templator || !props) return;
+      if (!templator) return;
+      const template = templator.getTemplate()
       return {
-        template: templator.getNodes(),
-        arrVarNames: props.arrVarNames,
+        template,
+        arrVarNames: template.usedVarNames,
       };
     },
   }),

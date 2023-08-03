@@ -5,7 +5,7 @@ import {
   OpenTemplateEditorButton,
 } from "./components";
 import { ModalProvider } from "./context";
-import { DEFAULT_VAR_NAMES, TemplateNode } from "./models";
+import { DEFAULT_VAR_NAMES, Template } from "./models";
 import { useTemplateEditorStore } from "./store";
 import styles from "./App.module.css";
 
@@ -20,7 +20,7 @@ export const App: FC = () => {
     ? JSON.parse(localStorage.template)
     : null;
 
-  const callbackSave = async (template: TemplateNode[]) => {
+  const callbackSave = async (template: Template) => {
     localStorage.setItem("template", JSON.stringify(template));
   };
 

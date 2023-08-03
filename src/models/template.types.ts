@@ -15,3 +15,8 @@ export type ConditionNode = {
 };
 
 export type TemplateNode = TextNode | ConditionNode;
+
+export type Template = {
+  usedVarNames: string[];
+  nodes: TemplateNode[];
+};

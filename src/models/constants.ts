@@ -1,4 +1,5 @@
 import { getNewTextNode } from "./template";
+import { Template } from "./template.types";
 
 export const DEFAULT_VAR_NAMES = [
   "firstname",
@@ -8,4 +9,7 @@ export const DEFAULT_VAR_NAMES = [
 ];
 export const DEFAULT_VAR_VALUES = "";
 
-export const DEFAULT_TEMPLATE = [getNewTextNode()];
+export const DEFAULT_TEMPLATE: Template = {
+  usedVarNames: [],
+  nodes: [getNewTextNode()]
+};

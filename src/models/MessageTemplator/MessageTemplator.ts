@@ -1,16 +1,17 @@
 import type { MessageTemplatorActions } from "./MessageTemplator.types";
 import { getDefaultConditionNode, getNewTextNode } from "../template";
-import type { TemplateNode } from "../template.types";
+import type { Template, TemplateNode } from "../template.types";
 import { produce } from "immer";
 
 export class MessageTemplator implements MessageTemplatorActions {
-  private variableNames: Set<string>;
+  private varNames: Set<string>;
+  private usedVarNames: Set<string>;
+  private nodes: TemplateNode[];
 
-  constructor(
-    private nodes: TemplateNode[],
-    variableNames: string[],
-  ) {
-    this.variableNames = new Set(variableNames);
+  constructor(template: Template, varNames: string[],) {
+    this.varNames = new Set(varNames);
+    this.usedVarNames = new Set(template.usedVarNames);
+    this.nodes = template.nodes
   }
 
   /**
@@ -53,7 +54,8 @@ export class MessageTemplator implements MessageTemplatorActions {
     const regex = /\{(.*?)\}/g;
     return text.replace(regex, (_, variableName: string) => {
       const trimmed = variableName.trim();
-      if (this.variableNames.has(trimmed)) {
+      if (this.varNames.has(trimmed)) {
+        this.usedVarNames.add(trimmed);
         return `{${trimmed}}`;
       }
       return variableName;
@@ -115,5 +117,12 @@ export class MessageTemplator implements MessageTemplatorActions {
 
   public getNodes(): TemplateNode[] {
     return this.nodes;
+  }
+
+  public getTemplate(): Template {
+    return {
+      nodes: this.nodes,
+      usedVarNames: [...this.usedVarNames],
+    }
   }
 }
