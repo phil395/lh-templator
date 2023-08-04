@@ -1,6 +1,6 @@
 import type { MessageTemplatorActions } from "./MessageTemplator.types";
 import { getDefaultConditionNode, getNewTextNode } from "../template";
-import type { Template, TemplateNode } from "../template.types";
+import type { ConditionNode, Template, TemplateNode, TextNode } from "../template.types";
 import { produce } from "immer";
 
 export class MessageTemplator implements MessageTemplatorActions {
@@ -72,25 +72,28 @@ export class MessageTemplator implements MessageTemplatorActions {
     textNodeId: string,
     textBefore: string,
     textAfter: string,
-  ): void {
+  ) {
+    let textNodeBefore: TextNode | undefined
+    let conditionNode: ConditionNode | undefined
+    let textNodeAfter: TextNode | undefined
     this.nodes = produce(this.nodes, (draft) => {
       const result = this.findNode(textNodeId, draft);
       if (!result) return;
       const [node, parent] = result;
-      parent.splice(
-        parent.indexOf(node),
-        1,
-        getNewTextNode(textBefore),
-        getDefaultConditionNode(),
-        getNewTextNode(textAfter),
-      );
+      textNodeBefore = getNewTextNode(textBefore)
+      conditionNode = getDefaultConditionNode()
+      textNodeAfter = getNewTextNode(textAfter)
+      parent.splice(parent.indexOf(node), 1, textNodeBefore, conditionNode, textNodeAfter);
     });
+    if (!textNodeBefore || !conditionNode || !textNodeAfter) return
+    return [textNodeBefore, conditionNode, textNodeAfter] as const
   }
 
   /**
    * Update text node with sanitization
    */
   public updateTextNode(textNodeId: string, newText: string) {
+    let textNode: TextNode | undefined
     this.nodes = produce(this.nodes, (draft) => {
       const result = this.findNode(textNodeId, draft);
       if (!result) return;
@@ -98,10 +101,13 @@ export class MessageTemplator implements MessageTemplatorActions {
       if (node.type === "text") {
         node.value = newText;
       }
+      textNode = result[0] as TextNode
     });
+    return textNode
   }
 
   public removeCondition(conditionNodeId: string) {
+    let mergedTextNode: TextNode | undefined
     this.nodes = produce(this.nodes, (draft) => {
       const result = this.findNode(conditionNodeId, draft);
       if (!result) return;
@@ -113,12 +119,14 @@ export class MessageTemplator implements MessageTemplatorActions {
       if (prevNode?.type !== "text" || nextNode?.type !== "text") {
         return;
       }
+      mergedTextNode = getNewTextNode(prevNode.value + nextNode.value)
       parent.splice(
         nodeIndex - 1,
         3 /* prevNode(text) + node(condition) + nextNode(text) */,
-        getNewTextNode(prevNode.value + nextNode.value),
+        mergedTextNode,
       );
     });
+    return mergedTextNode
   }
 
   public getNodes(): TemplateNode[] {

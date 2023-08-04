@@ -1,9 +1,7 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import autosize from "autosize";
 
-export const useAutosize = (deps: unknown) => {
-  const ref = useRef<HTMLTextAreaElement>(null);
-
+export const useAutosize = <T extends HTMLElement>(ref: React.RefObject<T>, deps: unknown[]) => {
   useEffect(() => {
     const element = ref.current;
     if (!element) return;
@@ -11,13 +9,11 @@ export const useAutosize = (deps: unknown) => {
     return () => {
       autosize.destroy(element);
     };
-  }, []);
+  }, []); // eslint-disable-line
 
   useEffect(() => {
     const element = ref.current;
     if (!element) return;
     autosize.update(element);
-  }, [deps]);
-
-  return ref;
+  }, [deps]); // eslint-disable-line
 };
