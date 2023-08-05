@@ -1,3 +1,7 @@
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background-color: hsl(var(--bg-color));
   color: hsl(var(--main-text-color));
