@@ -1,5 +1,5 @@
 import { useLayoutEffect, useReducer, useRef, type FC } from "react";
-import { usePrevious } from "../../hooks";
+import { useCSSTransition, usePrevious } from "../../hooks";
 import styles from "./Transition.module.css";
 
 interface Props {
@@ -41,46 +41,7 @@ export const Transition: FC<Props> = ({
   const ref = useRef<HTMLDivElement>(null);
   const previousChildren = usePrevious(children);
   const [, forcedUpdate] = useReducer((x) => x + 1, 0);
-
-  const show = async (
-    element: Nullable<HTMLDivElement>,
-    signal: AbortSignal,
-  ) => {
-    if (!element) return;
-    element.classList.remove(leaveTo, leave);
-    element.classList.add(enterFrom, enter);
-    requestAnimationFrame(() => {
-      element.classList.add(enterTo);
-      element.classList.remove(enterFrom);
-    });
-    element.addEventListener(
-      "transitionend",
-      () => {
-        element.classList.remove(enter);
-      },
-      { once: true, signal },
-    );
-  };
-
-  const hide = async (
-    element: Nullable<HTMLDivElement>,
-    signal: AbortSignal,
-  ) => {
-    if (!element) return;
-    element.classList.remove(enterTo, enter);
-    element.classList.add(leaveFrom, leave);
-    requestAnimationFrame(() => {
-      element.classList.add(leaveTo);
-      element.classList.remove(leaveFrom);
-    });
-    element.addEventListener(
-      "transitionend",
-      () => {
-        forcedUpdate();
-      },
-      { once: true, signal },
-    );
-  };
+  const { show, hide } = useCSSTransition({ enter, enterFrom, enterTo, leave, leaveFrom, leaveTo })
 
   useLayoutEffect(() => {
     const abortController = new AbortController();
@@ -88,9 +49,10 @@ export const Transition: FC<Props> = ({
     if (!previousChildren && children) {
       show(ref.current, abortController.signal);
     }
-    // This is the moment when "null" ("false") children came as children
+    // This is the moment when "null" ("false") children came
     if (!children && previousChildren) {
-      hide(ref.current, abortController.signal);
+      hide(ref.current, abortController.signal)
+        .then(forcedUpdate)
     }
     return () => {
       abortController.abort();

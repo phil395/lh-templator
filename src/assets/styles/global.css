@@ -29,7 +29,6 @@ button:focus-visible {
   border-radius: var(--border-radius);
   background-color: hsl(var(--text-field-color));
   color: hsl(var(--main-text-color));
-  transition: 0.5s box-shadow ease 0.05s;
   outline: none;
 }
 

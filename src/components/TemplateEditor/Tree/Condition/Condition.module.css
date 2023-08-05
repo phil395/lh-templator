@@ -4,11 +4,11 @@
   position: relative;
 }
 
-.condition > button {
+.condition>button {
   margin: calc(1rem + var(--half-spacing)) 2px 0px 3px;
 }
 
-.condition > button::after {
+.condition>button::after {
   content: "";
   position: absolute;
   top: calc(3.5rem + var(--half-spacing));
@@ -28,7 +28,7 @@
   margin: var(--half-spacing) 0;
 }
 
-.item > h6 {
+.item>h6 {
   flex: 0 0 70px;
   margin-right: var(--half-spacing);
   margin-top: 1rem;
@@ -38,19 +38,19 @@
   text-transform: uppercase;
 }
 
-.item:first-child > h6 {
+.item:first-child>h6 {
   color: hsl(var(--blue));
 }
 
-.item:nth-child(2) > h6 {
+.item:nth-child(2)>h6 {
   color: hsl(var(--pink));
 }
 
-.item:last-child > h6 {
+.item:last-child>h6 {
   color: hsl(var(--light-blue));
 }
 
-.item > div {
+.item>div {
   flex: 1 1 auto;
 }
 
@@ -65,13 +65,43 @@
     margin-bottom: 1rem;
   }
 
-  .item > h6 {
+  .item>h6 {
     text-align: start;
     flex: 0 0 auto;
     margin: 1rem;
   }
 
-  .condition > button {
+  .condition>button {
     margin: var(--half-spacing) 2px 0px 3px;
   }
+}
+
+
+/* Transition styles */
+.enter {
+  transition: opacity .3s linear, transform .3s ease-out;
+}
+
+.enterFrom {
+  opacity: 0;
+  transform: scale(.6) translateY(-50%);
+}
+
+.enterTo {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+.leave {
+  transition: opacity .3s linear, transform .3s cubic-bezier(.87, -0.25, .85, .93);
+}
+
+.leaveFrom {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+.leaveTo {
+  opacity: 0;
+  transform: scale(.6) translateY(-50%);
 }
