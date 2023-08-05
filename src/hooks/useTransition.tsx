@@ -19,11 +19,16 @@ interface CSSTransitionActions {
   hide: CSSTransitionFn
 }
 
+/** Disable the animation for people who can't stand to watch it. */
+const prefersReducedMotion = typeof window !== 'undefined'
+  ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  : undefined
+
 export const useCSSTransition = ({ enter, enterFrom, enterTo, leave, leaveFrom, leaveTo }: CSSTransitionClasses) => {
   return useMemo<CSSTransitionActions>(() => ({
     show: (element, signal) => {
       return new Promise(resolve => {
-        if (!element || signal?.aborted) {
+        if (!element || signal?.aborted || prefersReducedMotion) {
           resolve()
           return
         };
@@ -49,7 +54,7 @@ export const useCSSTransition = ({ enter, enterFrom, enterTo, leave, leaveFrom, 
     },
     hide: (element, signal) => {
       return new Promise(resolve => {
-        if (!element || signal?.aborted) {
+        if (!element || signal?.aborted || prefersReducedMotion) {
           resolve()
           return
         };
