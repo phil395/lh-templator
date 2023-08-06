@@ -1,7 +1,7 @@
 import { type FC } from "react";
 import { usePreviewStore } from "../../../store";
-import styles from "./VariablesAssigner.module.css";
 import { useDebouncedCallback } from "../../../hooks";
+import styles from "./VariablesAssigner.module.css";
 
 interface ItemVariableProps {
   variableName: string;
@@ -27,7 +27,10 @@ const ItemVariable: FC<ItemVariableProps> = ({
         {variableName}
         {"}"}
       </p>
-      <input className="text-field" onChange={debouncedUpdate} />
+      <input
+        className="text-field"
+        onChange={debouncedUpdate}
+      />
     </li>
   );
 };

@@ -8,4 +8,5 @@
 
 .item input {
   padding: 0.6rem;
+  background-color: hsl(var(--text-field-color));
 }

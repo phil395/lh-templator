@@ -27,13 +27,12 @@ button:focus-visible {
   outline-offset: 1px;
 }
 
-/* used in components: Textarea (TemplateEditor); VariableAssigner (Preview) */
+/* used in components: Textarea (TemplateEditor); VariableAssigner (Preview); CommandPalette (TemplateEditor) */
 .text-field {
   padding: 1rem;
   width: 100%;
   min-width: 250px;
   border-radius: var(--border-radius);
-  background-color: hsl(var(--text-field-color));
   color: hsl(var(--main-text-color));
   outline: none;
 }

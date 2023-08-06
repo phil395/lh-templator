@@ -6,7 +6,7 @@ import { useCSSTransition, type CSSTransitionClasses } from "../../../../hooks";
 import type { ConditionNode } from "../../../../models";
 import styles from "./Condition.module.css";
 
-interface Props extends ConditionNode {}
+interface Props extends ConditionNode { }
 
 const transitionStyles: CSSTransitionClasses = {
   enter: styles.enter,
@@ -23,7 +23,7 @@ const renderItem = (
 ) => (
   <div key={type} className={styles.item}>
     <h6>{type}</h6>
-    <div>{nodes.map(defineComponent)}</div>
+    <div className={styles.root}>{nodes.map(defineComponent)}</div>
   </div>
 );
 

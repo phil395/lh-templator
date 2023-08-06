@@ -10,22 +10,26 @@
   letter-spacing: 0.1rem;
 }
 
-.button > span > span {
+.button>span>span {
   margin: 0 10px;
 }
 
-.colored > svg {
+.colored>svg {
   color: hsl(var(--blue));
 }
 
-.colored > span > span:first-child {
+.colored>span>span:first-child {
   color: hsl(var(--blue));
 }
 
-.colored > span > span:nth-child(2) {
-  color: hsl(var(--pink));
+.colored>span>span:nth-child(2) {
+  /* color: hsl(var(--pink)); */
+  color: hsl(var(--green));
+
 }
 
-.colored > span > span:last-child {
-  color: hsl(var(--light-blue));
+.colored>span>span:last-child {
+  /* color: hsl(var(--light-blue)); */
+  color: hsl(var(--red));
+
 }

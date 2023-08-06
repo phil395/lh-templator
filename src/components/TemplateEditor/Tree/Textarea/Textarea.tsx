@@ -1,10 +1,13 @@
-import { useEffect, memo, type FC, useRef } from "react";
+import { useEffect, memo, useRef, type FC } from "react";
+import clsx from "clsx";
+import { Highlighter } from "./Highlighter";
 import { useAutosize } from "../../../../hooks";
 import { useTemplateEditorStore } from "../../../../store";
 import { ensureFocus } from "./Textarea.utils";
 import type { TextNode } from "../../../../models";
+import styles from './Textarea.module.css'
 
-interface Props extends TextNode {}
+interface Props extends TextNode { }
 
 export const Textarea: FC<Props> = memo(({ id, value }) => {
   const ref = useRef<HTMLTextAreaElement>(null);
@@ -33,14 +36,16 @@ export const Textarea: FC<Props> = memo(({ id, value }) => {
   useAutosize(ref, [value]);
 
   return (
-    <textarea
-      ref={ref}
-      className="text-field"
-      rows={1}
-      defaultValue={value}
-      placeholder="Optional text"
-      onBlur={onBlur}
-      spellCheck={true}
-    ></textarea>
+    <Highlighter textareaRef={ref} value={value}>
+      <textarea
+        ref={ref}
+        className={clsx("text-field", styles.textarea)}
+        rows={1}
+        defaultValue={value}
+        placeholder="Optional text"
+        onBlur={onBlur}
+        spellCheck={true}
+      ></textarea>
+    </Highlighter>
   );
 });

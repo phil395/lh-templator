@@ -16,7 +16,7 @@ export const Modal: FC<PropsWithChildren<Props>> = ({ hide, children }) => {
   return (
     <div className={styles.overlay}>
       <div>
-        <div className={styles.container} ref={ref} tabIndex={1}>
+        <div className={styles.container} ref={ref}>
           <Button
             icon="close"
             color="red"

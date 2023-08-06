@@ -24,6 +24,6 @@
   --bg-color: var(--gray);
   --text-field-color: var(--dark);
   --main-text-color: var(--dark-white);
-  /* --placeholder-color: var(--light-gray); */
   --preview-color: var(--light-gray);
+  --var-name-color: 120 32% 28%;
 }
