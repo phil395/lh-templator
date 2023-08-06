@@ -4,11 +4,11 @@
   margin: 0 auto;
 }
 
-.main > section {
+.main>section {
   margin: var(--spacing) 0;
 }
 
-.main > section > h2 {
+.main>section>h2 {
   margin-bottom: var(--half-spacing);
   font-size: 1.2rem;
   font-weight: bold;
@@ -21,6 +21,21 @@
   justify-content: center;
 }
 
-.footerButtons > button {
+.footerButtons>button {
   margin: 0.5rem;
+}
+
+.infoMsg {
+  opacity: .8;
+}
+
+.infoMsg kbd {
+  background-color: hsl(var(--text-field-color));
+  border-radius: 3px;
+  display: inline-block;
+  font-size: 0.85em;
+  font-weight: 700;
+  line-height: 1;
+  padding: 4px 6px;
+  white-space: nowrap;
 }
