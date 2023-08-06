@@ -1,33 +1,32 @@
 import { useEffect, memo, type FC, useRef } from "react";
 import { useAutosize } from "../../../../hooks";
 import { useTemplateEditorStore } from "../../../../store";
+import { ensureFocus } from "./Textarea.utils";
 import type { TextNode } from "../../../../models";
 
 interface Props extends TextNode { }
 
 export const Textarea: FC<Props> = memo(({ id, value }) => {
   const ref = useRef<HTMLTextAreaElement>(null);
-  const { updateTextNode, getFocusedTextarea } = useTemplateEditorStore(
-    ({ updateTextNode, getFocusedTextarea }) => ({ updateTextNode, getFocusedTextarea }),
+  const { updateTextNode, getFocusedTextarea, setLastTextarea } = useTemplateEditorStore(
+    ({ updateTextNode, getFocusedTextarea, setLastTextarea }) => ({
+      updateTextNode,
+      getFocusedTextarea,
+      setLastTextarea
+    }),
   );
 
   const onBlur = (e: React.FocusEvent<HTMLTextAreaElement, Element>) => {
-    const { value: v, selectionStart, selectionEnd } = e.target;
-    updateTextNode({ id, value: v, selectionStart, selectionEnd });
+    const { value: inputValue, selectionStart, selectionEnd } = e.target;
+    if (value !== inputValue) updateTextNode(id, inputValue)
+    setLastTextarea({ id, value: inputValue, selectionStart, selectionEnd });
   };
 
   useEffect(() => {
     const el = ref.current
     if (!el) return
     el.value = value
-    const focused = getFocusedTextarea()
-    if (!focused) return
-    const { id: focusedId, selectionStart, selectionEnd } = focused
-    if (focusedId === id) {
-      el.focus()
-      el.selectionStart = selectionStart
-      el.selectionEnd = selectionEnd
-    }
+    ensureFocus(el, id, getFocusedTextarea)
   }, [value]); // eslint-disable-line
 
   useAutosize(ref, [value])
