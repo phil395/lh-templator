@@ -9,12 +9,9 @@ import {
 import {
   buildFocusedTextarea,
   getInitialTextarea,
-  splitLastTextarea
+  splitLastTextarea,
 } from "./useTemplateEditorStore.utils";
-import type {
-  TemplateEditorProps,
-  PreviewProps
-} from "../../components";
+import type { TemplateEditorProps, PreviewProps } from "../../components";
 
 interface TemplateEditorActions {
   openEditor: () => void;
@@ -23,11 +20,11 @@ interface TemplateEditorActions {
   save: () => Promise<void>;
   addCondition: () => void;
   removeCondition: (id: string) => void;
-  setLastTextarea: (data: LastTextarea) => void
+  setLastTextarea: (data: LastTextarea) => void;
   updateTextNode: (id: string, newValue: string) => void;
   insertVarName(varName: string): void;
   getPreviewProps: () => PreviewProps | undefined;
-  getFocusedTextarea: () => FocusedTextarea | null
+  getFocusedTextarea: () => FocusedTextarea | null;
 }
 
 interface TemplateEditorState {
@@ -56,7 +53,7 @@ interface TemplateEditorState {
 }
 
 interface TextArea {
-  id: string,
+  id: string;
   selectionStart: number;
   selectionEnd: number;
 }
@@ -65,7 +62,7 @@ export interface LastTextarea extends TextArea {
   value: string;
 }
 
-export interface FocusedTextarea extends TextArea { }
+export interface FocusedTextarea extends TextArea {}
 
 type TemplateEditorStore = TemplateEditorState & TemplateEditorActions;
 
@@ -75,105 +72,109 @@ const initialState: TemplateEditorState = {
   nodes: null,
   lastTextarea: null,
   hasChanges: false,
-  focusedTextarea: null
+  focusedTextarea: null,
 };
 
 let templator: MessageTemplator | null = null;
 
-export const useTemplateEditorStore = createWithEqualityFn<TemplateEditorStore>()(
-  (set, get) => ({
-    ...initialState,
-    openEditor: () => {
-      set({ open: true });
-    },
-    closeEditor: () => {
-      /* Prevent the use of actions after pressing close button
+export const useTemplateEditorStore =
+  createWithEqualityFn<TemplateEditorStore>()(
+    (set, get) => ({
+      ...initialState,
+      openEditor: () => {
+        set({ open: true });
+      },
+      closeEditor: () => {
+        /* Prevent the use of actions after pressing close button
       (for example, when playing the closing animation) */
-      templator = null;
-      set({ open: false });
-    },
-    init: (props) => {
-      const template = props.template || DEFAULT_TEMPLATE;
-      const arrVarNames = props.arrVarNames || DEFAULT_VAR_NAMES;
-      templator = new MessageTemplator(template, arrVarNames);
-      const initialTextarea = getInitialTextarea(templator)
-      set({
-        props,
-        nodes: template.nodes,
-        lastTextarea: initialTextarea,
-        hasChanges: false,
-        focusedTextarea: initialTextarea
-      });
-    },
-    save: async () => {
-      const { props } = get();
-      if (!templator || !props) return;
-      const template = templator.getTemplate();
-      await props.callbackSave(template);
-      set({ hasChanges: false });
-    },
-    addCondition: () => {
-      const { lastTextarea } = get();
-      if (!templator || !lastTextarea) return;
-      const { id, textBefore, textAfter } = splitLastTextarea(lastTextarea);
-      const nodes = templator.addCondition(id, textBefore, textAfter);
-      if (!nodes) return
-      const textareaIdFromIFBlock = nodes[1].nodes.if[0].id
-      set({
-        nodes: templator.getNodes(),
-        hasChanges: true,
-        focusedTextarea: buildFocusedTextarea(textareaIdFromIFBlock)
-      });
-    },
-    removeCondition: (id) => {
-      if (!templator) return;
-      const mergedTextNode = templator.removeCondition(id);
-      if (!mergedTextNode) return
-      const cursorPosition = mergedTextNode.value.length
-      set({
-        nodes: templator.getNodes(),
-        hasChanges: true,
-        focusedTextarea: buildFocusedTextarea(mergedTextNode.id, cursorPosition)
-      });
-    },
-    setLastTextarea: (data) => {
-      set({
-        lastTextarea: data,
-        focusedTextarea: null
-      })
-    },
-    updateTextNode: (id, newValue) => {
-      if (!templator) return;
-      templator.updateTextNode(id, newValue);
-      set({
-        nodes: templator.getNodes(),
-        hasChanges: true
-      });
-    },
-    insertVarName: (varName) => {
-      const { lastTextarea } = get();
-      if (!templator || !lastTextarea) return;
-      const { id, textBefore, textAfter } = splitLastTextarea(lastTextarea);
-      const newValue = `${textBefore}{${varName}}${textAfter}`
-      templator.updateTextNode(id, newValue);
-      const cursorPosition = textBefore.length + varName.length + 2
-      set({
-        nodes: templator.getNodes(),
-        hasChanges: true,
-        focusedTextarea: buildFocusedTextarea(id, cursorPosition)
-      });
-    },
-    getPreviewProps: () => {
-      if (!templator) return;
-      const template = templator.getTemplate()
-      return {
-        template,
-        arrVarNames: template.usedVarNames,
-      };
-    },
-    getFocusedTextarea: () => {
-      return get().focusedTextarea
-    }
-  }),
-  shallow
-);
+        templator = null;
+        set({ open: false });
+      },
+      init: (props) => {
+        const template = props.template || DEFAULT_TEMPLATE;
+        const arrVarNames = props.arrVarNames || DEFAULT_VAR_NAMES;
+        templator = new MessageTemplator(template, arrVarNames);
+        const initialTextarea = getInitialTextarea(templator);
+        set({
+          props,
+          nodes: template.nodes,
+          lastTextarea: initialTextarea,
+          hasChanges: false,
+          focusedTextarea: initialTextarea,
+        });
+      },
+      save: async () => {
+        const { props } = get();
+        if (!templator || !props) return;
+        const template = templator.getTemplate();
+        await props.callbackSave(template);
+        set({ hasChanges: false });
+      },
+      addCondition: () => {
+        const { lastTextarea } = get();
+        if (!templator || !lastTextarea) return;
+        const { id, textBefore, textAfter } = splitLastTextarea(lastTextarea);
+        const nodes = templator.addCondition(id, textBefore, textAfter);
+        if (!nodes) return;
+        const textareaIdFromIFBlock = nodes[1].nodes.if[0].id;
+        set({
+          nodes: templator.getNodes(),
+          hasChanges: true,
+          focusedTextarea: buildFocusedTextarea(textareaIdFromIFBlock),
+        });
+      },
+      removeCondition: (id) => {
+        if (!templator) return;
+        const mergedTextNode = templator.removeCondition(id);
+        if (!mergedTextNode) return;
+        const cursorPosition = mergedTextNode.value.length;
+        set({
+          nodes: templator.getNodes(),
+          hasChanges: true,
+          focusedTextarea: buildFocusedTextarea(
+            mergedTextNode.id,
+            cursorPosition,
+          ),
+        });
+      },
+      setLastTextarea: (data) => {
+        set({
+          lastTextarea: data,
+          focusedTextarea: null,
+        });
+      },
+      updateTextNode: (id, newValue) => {
+        if (!templator) return;
+        templator.updateTextNode(id, newValue);
+        set({
+          nodes: templator.getNodes(),
+          hasChanges: true,
+        });
+      },
+      insertVarName: (varName) => {
+        const { lastTextarea } = get();
+        if (!templator || !lastTextarea) return;
+        const { id, textBefore, textAfter } = splitLastTextarea(lastTextarea);
+        const newValue = `${textBefore}{${varName}}${textAfter}`;
+        templator.updateTextNode(id, newValue);
+        const cursorPosition = textBefore.length + varName.length + 2;
+        set({
+          nodes: templator.getNodes(),
+          hasChanges: true,
+          focusedTextarea: buildFocusedTextarea(id, cursorPosition),
+        });
+      },
+      getPreviewProps: () => {
+        if (!templator) return;
+        const template = templator.getTemplate();
+        return {
+          template,
+          arrVarNames: template.usedVarNames,
+        };
+      },
+      getFocusedTextarea: () => {
+        return get().focusedTextarea;
+      },
+    }),
+    shallow,
+  );

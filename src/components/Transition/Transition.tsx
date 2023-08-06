@@ -41,7 +41,14 @@ export const Transition: FC<Props> = ({
   const ref = useRef<HTMLDivElement>(null);
   const previousChildren = usePrevious(children);
   const [, forcedUpdate] = useReducer((x) => x + 1, 0);
-  const { show, hide } = useCSSTransition({ enter, enterFrom, enterTo, leave, leaveFrom, leaveTo })
+  const { show, hide } = useCSSTransition({
+    enter,
+    enterFrom,
+    enterTo,
+    leave,
+    leaveFrom,
+    leaveTo,
+  });
 
   useLayoutEffect(() => {
     const abortController = new AbortController();
@@ -51,8 +58,7 @@ export const Transition: FC<Props> = ({
     }
     // This is the moment when "null" ("false") children came
     if (!children && previousChildren) {
-      hide(ref.current, abortController.signal)
-        .then(forcedUpdate)
+      hide(ref.current, abortController.signal).then(forcedUpdate);
     }
     return () => {
       abortController.abort();

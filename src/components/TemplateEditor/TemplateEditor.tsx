@@ -23,7 +23,7 @@ export const TemplateEditor: FC<TemplateEditorProps> = ({
     init({ template, arrVarNames, callbackSave });
   }, [template, arrVarNames, callbackSave, init]);
 
-  useCommandPalette()
+  useCommandPalette();
 
   return (
     <main className={styles.main}>
@@ -45,8 +45,11 @@ export const TemplateEditor: FC<TemplateEditorProps> = ({
         <OpenPreviewButton getPreviewProps={getPreviewProps} />
       </section>
       <div className={styles.infoMsg}>
-        Press <kbd>Ctrl</kbd>  + <kbd>k</kbd> to open the command palette. <br />
-        To navigate through the various fields and buttons, press <kbd>Tab</kbd> or <kbd>Shift</kbd> + <kbd>Tab</kbd>
+        Press <kbd>Ctrl</kbd> + <kbd>k</kbd> to open the command palette. <br />
+        To navigate through the various fields and buttons, press <kbd>
+          Tab
+        </kbd>{" "}
+        or <kbd>Shift</kbd> + <kbd>Tab</kbd>
       </div>
     </main>
   );

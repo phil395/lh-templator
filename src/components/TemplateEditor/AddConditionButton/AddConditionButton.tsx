@@ -5,11 +5,14 @@ import styles from "./AddConditionButton.module.css";
 import clsx from "clsx";
 
 interface Props {
-  colored?: boolean
-  major?: boolean
+  colored?: boolean;
+  major?: boolean;
 }
 
-export const AddConditionButton: FC<Props> = ({ colored = true, major = true }) => {
+export const AddConditionButton: FC<Props> = ({
+  colored = true,
+  major = true,
+}) => {
   const addCondition = useTemplateEditorStore(
     ({ addCondition }) => addCondition,
   );
@@ -18,7 +21,7 @@ export const AddConditionButton: FC<Props> = ({ colored = true, major = true }) 
       icon="condition"
       className={clsx(styles.button, {
         [styles.colored]: colored,
-        [styles.major]: major
+        [styles.major]: major,
       })}
       content={
         <>

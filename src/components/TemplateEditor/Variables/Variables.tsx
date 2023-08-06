@@ -6,12 +6,12 @@ interface Props {
   /** arrVarNames can be obtained from the store,
    *  but it is obtained through the props because it is used not only in the TemplateEditor,
    *  but also in the CommandPalette, where it gets this array in filtered form. */
-  arrVarNames: string[]
+  arrVarNames: string[];
 }
 
 export const Variables: FC<Props> = ({ arrVarNames }) => {
   const insertVarName = useTemplateEditorStore(
-    ({ insertVarName }) => insertVarName
+    ({ insertVarName }) => insertVarName,
   );
 
   if (!arrVarNames.length) return null;

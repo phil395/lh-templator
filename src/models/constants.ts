@@ -11,5 +11,5 @@ export const DEFAULT_VAR_VALUES = "";
 
 export const DEFAULT_TEMPLATE: Template = {
   usedVarNames: [],
-  nodes: [getNewTextNode()]
+  nodes: [getNewTextNode()],
 };

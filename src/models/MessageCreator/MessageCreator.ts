@@ -52,7 +52,7 @@ export class MessageCreator {
       if (this.usedVarNames.has(varName)) {
         return this.variables[varName] ?? "";
       }
-      return match
+      return match;
     });
   }
 

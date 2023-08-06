@@ -4,14 +4,14 @@ import { FocusedTextarea } from "../../../../store";
 export const ensureFocus = (
   element: HTMLTextAreaElement,
   id: string,
-  getFocusedTextarea: () => FocusedTextarea | null
+  getFocusedTextarea: () => FocusedTextarea | null,
 ) => {
-  const data = getFocusedTextarea()
-  if (!data) return
-  const { id: focusedId, selectionStart, selectionEnd } = data
+  const data = getFocusedTextarea();
+  if (!data) return;
+  const { id: focusedId, selectionStart, selectionEnd } = data;
   if (focusedId === id) {
-    element.focus()
-    element.selectionStart = selectionStart
-    element.selectionEnd = selectionEnd
+    element.focus();
+    element.selectionStart = selectionStart;
+    element.selectionEnd = selectionEnd;
   }
-}
+};

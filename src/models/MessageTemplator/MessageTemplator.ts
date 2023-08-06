@@ -1,15 +1,20 @@
 import type { MessageTemplatorActions } from "./MessageTemplator.types";
 import { getDefaultConditionNode, getNewTextNode } from "../template";
-import type { ConditionNode, Template, TemplateNode, TextNode } from "../template.types";
+import type {
+  ConditionNode,
+  Template,
+  TemplateNode,
+  TextNode,
+} from "../template.types";
 import { produce } from "immer";
 
 export class MessageTemplator implements MessageTemplatorActions {
   private varNames: Set<string>;
   private nodes: TemplateNode[];
 
-  constructor(template: Template, varNames: string[],) {
+  constructor(template: Template, varNames: string[]) {
     this.varNames = new Set(varNames);
-    this.nodes = template.nodes
+    this.nodes = template.nodes;
   }
 
   /**
@@ -49,12 +54,12 @@ export class MessageTemplator implements MessageTemplatorActions {
     const dfs = (root: TemplateNode[]) => {
       for (const node of root) {
         if (node.type === "text") {
-          const matches = node.value.match(regex)
-          if (!matches) continue
+          const matches = node.value.match(regex);
+          if (!matches) continue;
           for (const m of matches) {
-            const varName = m.slice(1, m.length - 1)
+            const varName = m.slice(1, m.length - 1);
             if (this.varNames.has(varName)) {
-              usedVarNames.add(varName)
+              usedVarNames.add(varName);
             }
           }
         } else {
@@ -63,9 +68,9 @@ export class MessageTemplator implements MessageTemplatorActions {
           }
         }
       }
-    }
-    dfs(this.nodes)
-    return Array.from(usedVarNames)
+    };
+    dfs(this.nodes);
+    return Array.from(usedVarNames);
   }
 
   public addCondition(
@@ -73,27 +78,33 @@ export class MessageTemplator implements MessageTemplatorActions {
     textBefore: string,
     textAfter: string,
   ) {
-    let textNodeBefore: TextNode | undefined
-    let conditionNode: ConditionNode | undefined
-    let textNodeAfter: TextNode | undefined
+    let textNodeBefore: TextNode | undefined;
+    let conditionNode: ConditionNode | undefined;
+    let textNodeAfter: TextNode | undefined;
     this.nodes = produce(this.nodes, (draft) => {
       const result = this.findNode(textNodeId, draft);
       if (!result) return;
       const [node, parent] = result;
-      textNodeBefore = getNewTextNode(textBefore)
-      conditionNode = getDefaultConditionNode()
-      textNodeAfter = getNewTextNode(textAfter)
-      parent.splice(parent.indexOf(node), 1, textNodeBefore, conditionNode, textNodeAfter);
+      textNodeBefore = getNewTextNode(textBefore);
+      conditionNode = getDefaultConditionNode();
+      textNodeAfter = getNewTextNode(textAfter);
+      parent.splice(
+        parent.indexOf(node),
+        1,
+        textNodeBefore,
+        conditionNode,
+        textNodeAfter,
+      );
     });
-    if (!textNodeBefore || !conditionNode || !textNodeAfter) return
-    return [textNodeBefore, conditionNode, textNodeAfter] as const
+    if (!textNodeBefore || !conditionNode || !textNodeAfter) return;
+    return [textNodeBefore, conditionNode, textNodeAfter] as const;
   }
 
   /**
    * Update text node with sanitization
    */
   public updateTextNode(textNodeId: string, newText: string) {
-    let textNode: TextNode | undefined
+    let textNode: TextNode | undefined;
     this.nodes = produce(this.nodes, (draft) => {
       const result = this.findNode(textNodeId, draft);
       if (!result) return;
@@ -101,13 +112,13 @@ export class MessageTemplator implements MessageTemplatorActions {
       if (node.type === "text") {
         node.value = newText;
       }
-      textNode = result[0] as TextNode
+      textNode = result[0] as TextNode;
     });
-    return textNode
+    return textNode;
   }
 
   public removeCondition(conditionNodeId: string) {
-    let mergedTextNode: TextNode | undefined
+    let mergedTextNode: TextNode | undefined;
     this.nodes = produce(this.nodes, (draft) => {
       const result = this.findNode(conditionNodeId, draft);
       if (!result) return;
@@ -119,14 +130,14 @@ export class MessageTemplator implements MessageTemplatorActions {
       if (prevNode?.type !== "text" || nextNode?.type !== "text") {
         return;
       }
-      mergedTextNode = getNewTextNode(prevNode.value + nextNode.value)
+      mergedTextNode = getNewTextNode(prevNode.value + nextNode.value);
       parent.splice(
         nodeIndex - 1,
         3 /* prevNode(text) + node(condition) + nextNode(text) */,
         mergedTextNode,
       );
     });
-    return mergedTextNode
+    return mergedTextNode;
   }
 
   public getNodes(): TemplateNode[] {
@@ -137,6 +148,6 @@ export class MessageTemplator implements MessageTemplatorActions {
     return {
       nodes: this.nodes,
       usedVarNames: this.getUsedVarNames(),
-    }
+    };
   }
 }

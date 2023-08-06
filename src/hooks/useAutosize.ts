@@ -1,7 +1,10 @@
 import { useEffect } from "react";
 import autosize from "autosize";
 
-export const useAutosize = <T extends HTMLElement>(ref: React.RefObject<T>, deps: unknown[]) => {
+export const useAutosize = <T extends HTMLElement>(
+  ref: React.RefObject<T>,
+  deps: unknown[],
+) => {
   useEffect(() => {
     const element = ref.current;
     if (!element) return;

@@ -27,7 +27,7 @@ describe("MessageCreator", () => {
         },
       },
       { id: "10", type: "text", value: "{  non-existent}" },
-    ]
+    ],
   };
 
   test("create() should generate the correct message with variable substitution", () => {

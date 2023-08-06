@@ -1,3 +1,3 @@
-export { useTemplateEditorStore } from './useTemplateEditorStore'
+export { useTemplateEditorStore } from "./useTemplateEditorStore";
 
-export type { FocusedTextarea } from './useTemplateEditorStore'
+export type { FocusedTextarea } from "./useTemplateEditorStore";

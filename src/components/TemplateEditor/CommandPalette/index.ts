@@ -1,1 +1,1 @@
-export { useCommandPalette } from './CommandPalette'
+export { useCommandPalette } from "./CommandPalette";

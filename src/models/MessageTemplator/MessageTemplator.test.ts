@@ -1,12 +1,12 @@
 import { MessageTemplator } from "./MessageTemplator";
-import { getNewTextNode, getDefaultConditionNode } from '../template'
+import { getNewTextNode, getDefaultConditionNode } from "../template";
 import type { ConditionNode, TemplateNode, TextNode } from "../template.types";
 
 describe("MessageTemplator", () => {
   let templator: MessageTemplator;
   let nodes: TemplateNode[];
-  let usedVarNames: string[] = []
-  let arrVarNames = ["firstName", "lastName"]
+  let usedVarNames: string[] = [];
+  let arrVarNames = ["firstName", "lastName"];
 
   beforeEach(() => {
     nodes = [
@@ -160,7 +160,10 @@ describe("MessageTemplator", () => {
       expect((templator.getNodes()[0] as TextNode).value).toBe(
         "Hello, {firstName} {lastName}",
       );
-      expect(templator.getTemplate().usedVarNames).toEqual(['firstName', 'lastName']);
+      expect(templator.getTemplate().usedVarNames).toEqual([
+        "firstName",
+        "lastName",
+      ]);
     });
   });
 
@@ -185,19 +188,24 @@ describe("MessageTemplator", () => {
       expect((templator.getNodes()[0] as TextNode).value).toBe(
         "Hello, {firstName}. {non-existent}",
       );
-      expect(templator.getTemplate().usedVarNames).toEqual(['firstName']);
+      expect(templator.getTemplate().usedVarNames).toEqual(["firstName"]);
     });
   });
 
   describe("serialize", () => {
     it("should serialize the template", () => {
       templator = new MessageTemplator(
-        { nodes: [{ id: "1", type: "text", value: "Hello" }], usedVarNames: [] },
+        {
+          nodes: [{ id: "1", type: "text", value: "Hello" }],
+          usedVarNames: [],
+        },
         ["firstName"],
       );
 
       const serialized = JSON.stringify(templator.getTemplate());
-      expect(serialized).toBe(`{"nodes":[{"id":"1","type":"text","value":"Hello"}],"usedVarNames":[]}`);
+      expect(serialized).toBe(
+        `{"nodes":[{"id":"1","type":"text","value":"Hello"}],"usedVarNames":[]}`,
+      );
     });
   });
 });

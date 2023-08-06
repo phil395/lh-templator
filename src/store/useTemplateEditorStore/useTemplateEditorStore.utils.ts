@@ -4,7 +4,9 @@ import type { FocusedTextarea, LastTextarea } from "./useTemplateEditorStore";
 /** Extract data from the first TextNode to set it as LastTextarea
  *  until the user selects another textarea
  */
-export const getInitialTextarea = (templator: MessageTemplator): LastTextarea => {
+export const getInitialTextarea = (
+  templator: MessageTemplator,
+): LastTextarea => {
   const { id, value } = templator.getNodes()[0] as TextNode;
   return {
     id,
@@ -13,7 +15,6 @@ export const getInitialTextarea = (templator: MessageTemplator): LastTextarea =>
     selectionEnd: value.length,
   };
 };
-
 
 /** Split the lastTextarea into two parts: textBefore and textAfter,
  *  variables or conditions are inserted between them
@@ -35,12 +36,16 @@ export const splitLastTextarea = (
 
 /** The function builds an object corresponding to the specified interface.
  *  At the same time, take care of the processing of missing values */
-export const buildFocusedTextarea = (id: string, start?: number, end?: number): FocusedTextarea => {
+export const buildFocusedTextarea = (
+  id: string,
+  start?: number,
+  end?: number,
+): FocusedTextarea => {
   if (!start && !end) {
-    return { id, selectionStart: 0, selectionEnd: 0 }
+    return { id, selectionStart: 0, selectionEnd: 0 };
   }
   if (!end) {
-    return { id, selectionStart: start!, selectionEnd: start! }
+    return { id, selectionStart: start!, selectionEnd: start! };
   }
-  return { id, selectionStart: start!, selectionEnd: end }
-}
+  return { id, selectionStart: start!, selectionEnd: end };
+};
