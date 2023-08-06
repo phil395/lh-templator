@@ -2,21 +2,39 @@ import { useEffect } from "react";
 
 type EventHandler = (() => void) | ((event: Event) => void);
 
+interface Options {
+  target?: HTMLElement,
+  altKey?: true,
+  ctrlKey?: true,
+  preventDefault?: true
+}
+
 export const useKeyPress = (
-  ref: React.RefObject<Element>,
+  key: string | string[],
   handler: EventHandler,
-  key: string,
+  options: Options = {}
 ): void => {
   useEffect(() => {
-    const listener = (event: KeyboardEvent) => {
-      if (!ref.current || event.key !== key) {
+    const listener = (e: KeyboardEvent) => {
+      const altKeyMatch = typeof options.altKey !== 'undefined'
+        ? options.altKey === e.altKey
+        : true
+      const ctrlKeyMatch = typeof options.ctrlKey !== 'undefined'
+        ? options.ctrlKey === e.ctrlKey
+        : true
+      const keyMatch = Array.isArray(key)
+        ? key.includes(e.key)
+        : key === e.key
+      if (!keyMatch || !altKeyMatch || !ctrlKeyMatch) {
         return;
       }
-      handler(event);
+      if (options.preventDefault) e.preventDefault()
+      handler(e);
     };
-    document.addEventListener("keydown", listener);
+    const target = options.target ?? document
+    target.addEventListener("keydown", listener as EventListener);
     return () => {
-      document.removeEventListener("keydown", listener);
+      target.removeEventListener("keydown", listener as EventListener);
     };
-  }, [handler, key, ref]);
+  }, [handler, key, options.altKey, options.ctrlKey, options.target]);
 };
