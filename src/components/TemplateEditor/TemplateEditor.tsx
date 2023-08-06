@@ -4,11 +4,11 @@ import { AddConditionButton } from "./AddConditionButton";
 import { CloseTemplateEditorButton } from "./CloseTemplateEditorButton";
 import { SaveButton } from "./SaveButton";
 import { OpenPreviewButton } from "../Preview";
+import { useCommandPalette } from "./CommandPalette";
 import { Tree } from "./Tree";
 import { useTemplateEditorStore } from "../../store";
 import type { TemplateEditorProps } from "./TemplateEditor.types";
 import styles from "./TemplateEditor.module.css";
-import { useCommandPalette } from "./CommandPalette";
 
 export const TemplateEditor: FC<TemplateEditorProps> = ({
   arrVarNames,
