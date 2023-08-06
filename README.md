@@ -1,5 +1,15 @@
 # Message Template Editor
 
+The business logic of the application is represented by two classes: [MessageTemplator](https://github.com/phil395/message-template-editor/tree/master/src/models/MessageTemplator) and [MessageCreator](https://github.com/phil395/message-template-editor/tree/master/src/models/MessageCreator).
+
+The first is used to create and edit a message template. The second is used to create messages according to a given template.
+
+Communication of business logic with UI components is performed using Zustand.
+
+Structure of the message template: [template.types.ts](https://github.com/phil395/message-template-editor/blob/master/src/models/template.types.ts)
+
+Sample templates: [mockTemplates.ts](https://github.com/phil395/message-template-editor/blob/master/mock/mockTemplates.ts)
+
 ## Demo
 
 [https://message-template-editor.pages.dev/](https://message-template-editor.pages.dev/)
@@ -63,7 +73,7 @@ const parseTemplateString = (templateString, variables = {}) => {
 Examples of how this function works
 
 ```js
-const templateString = "Hello {name}! You age is {age}"
+const templateString = "Hello {name}! You age is {age}. {not-existing}"
 const variables = { name: "Bob", age: 20 }
 parseTemplateString(templateString, variables)
 /* output:
@@ -71,7 +81,7 @@ parseTemplateString(templateString, variables)
     textParts: [
       'Hello ',
       '! You age is ',
-      ''
+      '. {not-existing}'
     ],
     varNames: [
       'name',
