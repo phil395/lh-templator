@@ -21,7 +21,7 @@ export const ModalProvider: FC<PropsWithChildren> = ({ children }) => {
   const actions = useMemo(
     () => ({
       show: (content: JSX.Element) => {
-        setModalContent(content);
+        setModalContent((currentContent) => currentContent ?? content);
       },
       hide: () => {
         setModalContent(null);
