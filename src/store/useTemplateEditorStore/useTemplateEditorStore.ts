@@ -5,9 +5,16 @@ import {
   DEFAULT_VAR_NAMES,
   MessageTemplator,
   type TemplateNode,
-  type TextNode,
-} from "../models";
-import type { TemplateEditorProps, PreviewProps } from "../components";
+} from "../../models";
+import {
+  buildFocusedTextarea,
+  getInitialTextarea,
+  splitLastTextarea
+} from "./useTemplateEditorStore.utils";
+import type {
+  TemplateEditorProps,
+  PreviewProps
+} from "../../components";
 
 interface TemplateEditorActions {
   openEditor: () => void;
@@ -16,7 +23,8 @@ interface TemplateEditorActions {
   save: () => Promise<void>;
   addCondition: () => void;
   removeCondition: (id: string) => void;
-  updateTextNode: (data: LastTextarea) => void;
+  setLastTextarea: (data: LastTextarea) => void
+  updateTextNode: (id: string, newValue: string) => void;
   insertVarName(varName: string): void;
   getPreviewProps: () => PreviewProps | undefined;
   getFocusedTextarea: () => FocusedTextarea | null
@@ -26,7 +34,8 @@ interface TemplateEditorState {
   /** Indicator of whether the TemplateEditor is open or closed */
   open: boolean;
   /** TemplateEditor props.
-   *  They are needed in order to share them with nested components and exclude prop drilling */
+   *  They are needed in order to share them with nested components and exclude prop drilling,
+   *  or to save a `callbackSave`, for example, or to provide props for `Preview` */
   props: TemplateEditorProps | null;
   /** template nodes (text nodes and condition nodes) */
   nodes: TemplateNode[] | null;
@@ -52,11 +61,11 @@ interface TextArea {
   selectionEnd: number;
 }
 
-interface LastTextarea extends TextArea {
+export interface LastTextarea extends TextArea {
   value: string;
 }
 
-interface FocusedTextarea extends TextArea { }
+export interface FocusedTextarea extends TextArea { }
 
 type TemplateEditorStore = TemplateEditorState & TemplateEditorActions;
 
@@ -69,48 +78,7 @@ const initialState: TemplateEditorState = {
   focusedTextarea: null
 };
 
-/** Extract data from the first TextNode to set it as LastTextarea
- *  until the user selects another textarea
- */
-const getInitialTextarea = (templator: MessageTemplator): LastTextarea => {
-  const { id, value } = templator.getNodes()[0] as TextNode;
-  return {
-    id,
-    value,
-    selectionStart: value.length,
-    selectionEnd: value.length,
-  };
-};
-
 let templator: MessageTemplator | null = null;
-
-/** Split the lastTextarea into two parts: textBefore and textAfter,
- *  variables or conditions are inserted between them
- */
-const splitLastTextarea = (
-  lastTextarea: LastTextarea,
-): {
-  id: LastTextarea["id"];
-  textBefore: string;
-  textAfter: string;
-} => {
-  const { id, value, selectionStart, selectionEnd } = lastTextarea;
-  return {
-    id,
-    textBefore: value.slice(0, selectionStart),
-    textAfter: value.slice(selectionEnd),
-  };
-};
-
-const getFocusedTextarea = (id: string, start?: number, end?: number): FocusedTextarea => {
-  if (!start && !end) {
-    return { id, selectionStart: 0, selectionEnd: 0 }
-  }
-  if (!end) {
-    return { id, selectionStart: start!, selectionEnd: start! }
-  }
-  return { id, selectionStart: start!, selectionEnd: end }
-}
 
 export const useTemplateEditorStore = createWithEqualityFn<TemplateEditorStore>()(
   (set, get) => ({
@@ -154,7 +122,7 @@ export const useTemplateEditorStore = createWithEqualityFn<TemplateEditorStore>(
       set({
         nodes: templator.getNodes(),
         hasChanges: true,
-        focusedTextarea: getFocusedTextarea(textareaIdFromIFBlock)
+        focusedTextarea: buildFocusedTextarea(textareaIdFromIFBlock)
       });
     },
     removeCondition: (id) => {
@@ -165,17 +133,21 @@ export const useTemplateEditorStore = createWithEqualityFn<TemplateEditorStore>(
       set({
         nodes: templator.getNodes(),
         hasChanges: true,
-        focusedTextarea: getFocusedTextarea(mergedTextNode.id, cursorPosition)
+        focusedTextarea: buildFocusedTextarea(mergedTextNode.id, cursorPosition)
       });
     },
-    updateTextNode: (data) => {
+    setLastTextarea: (data) => {
+      set({
+        lastTextarea: data,
+        focusedTextarea: null
+      })
+    },
+    updateTextNode: (id, newValue) => {
       if (!templator) return;
-      templator.updateTextNode(data.id, data.value);
+      templator.updateTextNode(id, newValue);
       set({
         nodes: templator.getNodes(),
-        lastTextarea: data,
-        hasChanges: true,
-        focusedTextarea: null
+        hasChanges: true
       });
     },
     insertVarName: (varName) => {
@@ -188,7 +160,7 @@ export const useTemplateEditorStore = createWithEqualityFn<TemplateEditorStore>(
       set({
         nodes: templator.getNodes(),
         hasChanges: true,
-        focusedTextarea: getFocusedTextarea(id, cursorPosition)
+        focusedTextarea: buildFocusedTextarea(id, cursorPosition)
       });
     },
     getPreviewProps: () => {
