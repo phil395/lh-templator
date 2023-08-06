@@ -36,5 +36,12 @@ export const useKeyPress = (
     return () => {
       target.removeEventListener("keydown", listener as EventListener);
     };
-  }, [handler, key, options.altKey, options.ctrlKey, options.target, options.preventDefault]);
+  }, [
+    handler,
+    key,
+    options.altKey,
+    options.ctrlKey,
+    options.target,
+    options.preventDefault,
+  ]);
 };

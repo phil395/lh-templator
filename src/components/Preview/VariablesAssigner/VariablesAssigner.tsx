@@ -27,10 +27,7 @@ const ItemVariable: FC<ItemVariableProps> = ({
         {variableName}
         {"}"}
       </p>
-      <input
-        className="text-field"
-        onChange={debouncedUpdate}
-      />
+      <input className="text-field" onChange={debouncedUpdate} />
     </li>
   );
 };

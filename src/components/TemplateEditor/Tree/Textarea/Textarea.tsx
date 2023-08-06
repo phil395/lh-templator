@@ -5,9 +5,9 @@ import { useAutosize } from "../../../../hooks";
 import { useTemplateEditorStore } from "../../../../store";
 import { ensureFocus } from "./Textarea.utils";
 import type { TextNode } from "../../../../models";
-import styles from './Textarea.module.css'
+import styles from "./Textarea.module.css";
 
-interface Props extends TextNode { }
+interface Props extends TextNode {}
 
 export const Textarea: FC<Props> = memo(({ id, value }) => {
   const ref = useRef<HTMLTextAreaElement>(null);

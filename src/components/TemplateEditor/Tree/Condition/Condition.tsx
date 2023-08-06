@@ -6,7 +6,7 @@ import { useCSSTransition, type CSSTransitionClasses } from "../../../../hooks";
 import type { ConditionNode } from "../../../../models";
 import styles from "./Condition.module.css";
 
-interface Props extends ConditionNode { }
+interface Props extends ConditionNode {}
 
 const transitionStyles: CSSTransitionClasses = {
   enter: styles.enter,

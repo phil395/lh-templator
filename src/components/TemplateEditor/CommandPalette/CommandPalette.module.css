@@ -2,7 +2,7 @@
   width: min(500px, 80vw);
 }
 
-.section>input {
+.section > input {
   background-color: hsl(var(--text-field-color));
 }
 
@@ -10,6 +10,6 @@
   margin-top: var(--spacing);
 }
 
-.actions>ul {
+.actions > ul {
   margin-top: 0.5rem;
 }

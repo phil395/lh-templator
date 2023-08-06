@@ -38,44 +38,43 @@ Below is an example of a function that parses an incoming text fragment of a tem
 
 ```js
 const parseTemplateString = (templateString, variables = {}) => {
-  const textParts = []
-  const varNames = []
+  const textParts = [];
+  const varNames = [];
 
-  let startTextIndex = 0
-  let startVarIndex
+  let startTextIndex = 0;
+  let startVarIndex;
 
   for (let i = 0; i < templateString.length; i++) {
     const char = templateString[i];
-    if (char === '{') {
-      startVarIndex = i
-    }
-    else if (char === '}') {
-      const varName = templateString.slice(startVarIndex + 1, i)
+    if (char === "{") {
+      startVarIndex = i;
+    } else if (char === "}") {
+      const varName = templateString.slice(startVarIndex + 1, i);
       if (varName in variables) {
-        varNames.push(varName)
-        const text = templateString.slice(startTextIndex, startVarIndex)
-        textParts.push(text)
-        startTextIndex = i + 1
+        varNames.push(varName);
+        const text = templateString.slice(startTextIndex, startVarIndex);
+        textParts.push(text);
+        startTextIndex = i + 1;
       }
     }
   }
 
-  const lastTextPart = templateString.slice(startTextIndex)
-  textParts.push(lastTextPart)
+  const lastTextPart = templateString.slice(startTextIndex);
+  textParts.push(lastTextPart);
 
   return {
     textParts,
-    varNames
-  }
-}
+    varNames,
+  };
+};
 ```
 
 Examples of how this function works
 
 ```js
-const templateString = "Hello {name}! You age is {age}. {not-existing}"
-const variables = { name: "Bob", age: 20 }
-parseTemplateString(templateString, variables)
+const templateString = "Hello {name}! You age is {age}. {not-existing}";
+const variables = { name: "Bob", age: 20 };
+parseTemplateString(templateString, variables);
 /* output:
   {
     textParts: [

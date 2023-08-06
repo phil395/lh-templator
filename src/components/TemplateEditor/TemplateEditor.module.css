@@ -6,11 +6,11 @@
   z-index: 0;
 }
 
-.main>section {
+.main > section {
   margin: var(--spacing) 0;
 }
 
-.main>section>h2 {
+.main > section > h2 {
   margin-bottom: var(--half-spacing);
   font-size: 1.2rem;
   font-weight: bold;
@@ -23,7 +23,7 @@
   justify-content: center;
 }
 
-.footerButtons>button {
+.footerButtons > button {
   margin: 0.5rem;
 }
 

@@ -18,7 +18,6 @@
   word-wrap: break-word;
 }
 
-
 .backdrop mark {
   background-color: hsl(var(--var-name-color));
   border-radius: 3px;
