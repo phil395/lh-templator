@@ -9,7 +9,7 @@ interface Props {
 
 export const Modal: FC<PropsWithChildren<Props>> = ({ hide, children }) => {
   const ref = useRef<HTMLDivElement>(null);
-  useKeyPress(ref, hide, "Escape");
+  useKeyPress("Escape", hide);
   useClickOutside(ref, hide);
   useBodyClass("overflow-hidden");
 

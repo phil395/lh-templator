@@ -8,6 +8,7 @@ import { Tree } from "./Tree";
 import { useTemplateEditorStore } from "../../store";
 import type { TemplateEditorProps } from "./TemplateEditor.types";
 import styles from "./TemplateEditor.module.css";
+import { useCommandPalette } from "./CommandPalette";
 
 export const TemplateEditor: FC<TemplateEditorProps> = ({
   arrVarNames,
@@ -22,11 +23,13 @@ export const TemplateEditor: FC<TemplateEditorProps> = ({
     init({ template, arrVarNames, callbackSave });
   }, [template, arrVarNames, callbackSave, init]);
 
+  useCommandPalette()
+
   return (
     <main className={styles.main}>
       <section>
         <h2>Variables</h2>
-        <Variables />
+        <Variables arrVarNames={arrVarNames} />
       </section>
       <section>
         <h2>CTA</h2>

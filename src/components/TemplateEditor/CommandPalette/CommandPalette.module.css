@@ -1,0 +1,11 @@
+.section {
+  width: min(500px, 80vw);
+}
+
+.actions {
+  margin-top: var(--spacing);
+}
+
+.actions>ul {
+  margin-top: 0.5rem;
+}
