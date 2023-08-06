@@ -8,6 +8,7 @@ import type {
 } from "../template.types";
 import { produce } from "immer";
 
+/** Designed for editing the message template */
 export class MessageTemplator implements MessageTemplatorActions {
   private varNames: Set<string>;
   private nodes: TemplateNode[];
@@ -100,9 +101,6 @@ export class MessageTemplator implements MessageTemplatorActions {
     return [textNodeBefore, conditionNode, textNodeAfter] as const;
   }
 
-  /**
-   * Update text node with sanitization
-   */
   public updateTextNode(textNodeId: string, newText: string) {
     let textNode: TextNode | undefined;
     this.nodes = produce(this.nodes, (draft) => {

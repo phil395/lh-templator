@@ -1,5 +1,6 @@
 import { Template, TemplateNode } from "../template.types";
 
+/** Designed to create messages according to a given template */
 export class MessageCreator {
   private usedVarNames: Set<string>;
 
