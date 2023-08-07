@@ -1,4 +1,4 @@
-import { Template, TemplateNode } from "../src/models";
+import { Template } from "../src/models";
 
 export const template1: Template = {
   usedVarNames: [],
@@ -14,7 +14,7 @@ export const template1: Template = {
       },
     },
     { id: "6a", type: "text", value: "the end" },
-  ]
+  ],
 };
 
 export const template2: Template = {
@@ -90,5 +90,5 @@ export const template2: Template = {
       type: "text",
       value: "\n\nJake\nSoftware Developer\njakelennard911@gmail.com",
     },
-  ]
-}
+  ],
+};

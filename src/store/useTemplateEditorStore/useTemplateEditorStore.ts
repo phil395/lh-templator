@@ -4,6 +4,7 @@ import {
   DEFAULT_TEMPLATE,
   DEFAULT_VAR_NAMES,
   MessageTemplator,
+  TemplateSchema,
   type TemplateNode,
 } from "../../models";
 import {
@@ -12,6 +13,7 @@ import {
   splitLastTextarea,
 } from "./useTemplateEditorStore.utils";
 import type { TemplateEditorProps, PreviewProps } from "../../components";
+import { validate } from "superstruct";
 
 interface TemplateEditorActions {
   openEditor: () => void;
@@ -91,8 +93,13 @@ export const useTemplateEditorStore =
         set({ open: false });
       },
       init: (props) => {
-        const template = props.template || DEFAULT_TEMPLATE;
-        const arrVarNames = props.arrVarNames || DEFAULT_VAR_NAMES;
+        let [, template] = validate(props.template, TemplateSchema);
+        if (!template) {
+          template = DEFAULT_TEMPLATE;
+        }
+        const arrVarNames = Array.isArray(props.arrVarNames)
+          ? props.arrVarNames
+          : DEFAULT_VAR_NAMES;
         templator = new MessageTemplator(template, arrVarNames);
         const initialTextarea = getInitialTextarea(templator);
         set({
