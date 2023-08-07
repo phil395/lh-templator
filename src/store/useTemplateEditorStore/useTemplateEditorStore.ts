@@ -6,6 +6,7 @@ import {
   MessageTemplator,
   TemplateSchema,
   type TemplateNode,
+  ArrVarNamesSchema,
 } from "../../models";
 import {
   buildFocusedTextarea,
@@ -97,9 +98,10 @@ export const useTemplateEditorStore =
         if (!template) {
           template = DEFAULT_TEMPLATE;
         }
-        const arrVarNames = Array.isArray(props.arrVarNames)
-          ? props.arrVarNames
-          : DEFAULT_VAR_NAMES;
+        let [, arrVarNames] = validate(props.arrVarNames, ArrVarNamesSchema);
+        if (!arrVarNames) {
+          arrVarNames = DEFAULT_VAR_NAMES;
+        }
         templator = new MessageTemplator(template, arrVarNames);
         const initialTextarea = getInitialTextarea(templator);
         set({
