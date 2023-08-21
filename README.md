@@ -1,5 +1,15 @@
 # Message Template Editor
 
+## Technical Assignment
+
+[https://docs.google.com/document/d/1rQtHJoeR7DDh5enswfFhIukCTkzSeyx8DEpAwyMrUJI/edit?usp=sharing](https://docs.google.com/document/d/1rQtHJoeR7DDh5enswfFhIukCTkzSeyx8DEpAwyMrUJI/edit?usp=sharing)
+
+## Demo
+
+[https://message-template-editor.pages.dev/](https://message-template-editor.pages.dev/)
+
+## Description
+
 The business logic of the application is represented by two classes: [MessageTemplator](https://github.com/phil395/message-template-editor/tree/master/src/models/MessageTemplator) and [MessageCreator](https://github.com/phil395/message-template-editor/tree/master/src/models/MessageCreator).
 
 The first is used to create and edit a message template. The second is used to create messages according to a given template.
@@ -10,9 +20,6 @@ Structure of the message template: [template.types.ts](https://github.com/phil39
 
 Sample templates: [mockTemplates.ts](https://github.com/phil395/message-template-editor/blob/master/mock/mockTemplates.ts)
 
-## Demo
-
-[https://message-template-editor.pages.dev/](https://message-template-editor.pages.dev/)
 
 ## Start
 
