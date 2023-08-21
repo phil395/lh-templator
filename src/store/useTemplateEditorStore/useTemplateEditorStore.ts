@@ -65,7 +65,7 @@ export interface LastTextarea extends TextArea {
   value: string;
 }
 
-export interface FocusedTextarea extends TextArea {}
+export interface FocusedTextarea extends TextArea { }
 
 type TemplateEditorStore = TemplateEditorState & TemplateEditorActions;
 
@@ -125,11 +125,11 @@ export const useTemplateEditorStore =
         const { id, textBefore, textAfter } = splitLastTextarea(lastTextarea);
         const nodes = templator.addCondition(id, textBefore, textAfter);
         if (!nodes) return;
-        const textareaIdFromIFBlock = nodes[1].nodes.if[0].id;
+        const textNode = nodes[1].nodes.if[0];
         set({
           nodes: templator.getNodes(),
           hasChanges: true,
-          focusedTextarea: buildFocusedTextarea(textareaIdFromIFBlock),
+          focusedTextarea: buildFocusedTextarea(textNode.id),
         });
       },
       removeCondition: (id) => {
